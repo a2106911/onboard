@@ -7,10 +7,10 @@
 
 <template>
 	<dashboard-vue v-if="signed"></dashboard-vue>
-	<signIn v-if="!signed"></signIn>
+	<signIn v-if="!signed" class="absolutePositioning"></signIn>
 	<!-- <div id="app"> -->
-		<!-- <router-view /> -->
-		<!-- <component :is="layout">
+	<!-- <router-view /> -->
+	<!-- <component :is="layout">
 		</component> -->
 	<!-- </div> -->
 </template>
@@ -20,28 +20,39 @@ import DashboardVue from "./layouts/Dashboard.vue";
 import SignIn from "./views/Sign-In.vue";
 
 
-	export default ({
-		components:{
-			DashboardVue, 
-			SignIn
-		},
-		data () {
-			return {
-				signed:false
-			}
-		},
-		computed: {
-			// Sets components name based on current route's specified layout, defaults to
-			// <layout-default></layout-default> component.
-			layout() {
-				return DashboardVue
-				//return "layout-" + ( this.$route.meta.layout || "default" ).toLowerCase() ;
-			}
-		},
-	})
-	
+export default ({
+	components: {
+		DashboardVue,
+		SignIn
+	},
+	data() {
+		return {
+			signed: false
+		}
+	},
+	computed: {
+		// Sets components name based on current route's specified layout, defaults to
+		// <layout-default></layout-default> component.
+		layout() {
+			return DashboardVue
+			//return "layout-" + ( this.$route.meta.layout || "default" ).toLowerCase() ;
+		}
+	},
+})
+
 </script>
 
 <style lang="scss">
+body,
+html {
+	position: relative;
+	height: 100%;
+	margin: 0px;
+}
 
+.absolutePositioning {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
 </style>

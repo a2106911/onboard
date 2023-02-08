@@ -84,11 +84,19 @@ export default {
 </script>
 
 <style lang="scss">
+// body, html {
+//   position:relative;
+//   height:100%;
+//   width:100%;
+// }
 .signInBackground {
   background: url('../img/truck_login.jpg') no-repeat;
   background-size: cover;
   overflow: hidden;
   background-position: center;
+  // position:relative; 
+  width:100%;
+  height:100%;
 }
 
 @media screen and(max-width: 920px) {
