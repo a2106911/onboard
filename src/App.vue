@@ -27,7 +27,7 @@ import SignIn from "./views/Sign-In.vue";
 		},
 		data () {
 			return {
-				signed:true
+				signed:false
 			}
 		},
 		computed: {

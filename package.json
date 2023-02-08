@@ -14,7 +14,7 @@
     "chartjs": "^0.3.24",
     "core-js": "^3.8.3",
     "google-fonts-webpack-plugin": "^0.4.4",
-    "vue": "^3.2.13",
+    "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {

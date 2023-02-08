@@ -6,27 +6,51 @@
 
 // Sign In Page
 .sign-in {
-    padding: 0px 20px;
-	.col-img img {
-		width: 100%;
-		max-width: 500px;
-		margin: auto;
-		display: block;
-
-		@media( min-width: $lg) {
-			margin: 0;
+	.containter-login-form{
+		padding: 50px;
+		background-color: #F5F5F5F5;
+		opacity: 90%;
+		border-radius: 8px;
+		position: absolute;
+		top: 200px;
+		left: 250px;
+		@media screen and(max-width: 920px) {
+			left: 10%;
+			right: 10%;
+			top: 50%;
+			transform: translateY(-50%);
 		}
 	}
-	.col-form .ant-switch {
-		margin-right: 5px;
+	.container-login-item{
+		margin-bottom: -3%;
+		@media screen and(max-width: 920px) {
+			margin-bottom: -10px;
+		}
+		@media screen and(max-width: 600px) {
+			margin-bottom: -40px;
+		}
 	}
-	.ant-form-item-label {
-		line-height: 28px;
-	}
-	.ant-form-item label {
-		font-size: 13px;
-		font-weight: $fw-semibold;
-		color: $color-gray-12;
+	.title{
+		position: absolute;
+		top: -150px;
+		// right: 200px;
+		font-family: 'Montserrat', 'Open Sans', 'Helvetica Neue', sans-serif;
+		color: #F5F5F5F5;
+		font-size: 80px;
+		// padding: 30px 70px;
+		margin-top: 4%;
+		opacity: 80%;
+		font-weight: 900;
+
+		@media screen and(max-width: 920px) {
+			// top: 25px;
+			// left: 50px;
+		}
+		@media screen and(max-width: 600px) {
+			// top: 25px;
+			// left: 10px;
+			// font-size: 60px;
+		}
 	}
 }
 // / Sign In Page
