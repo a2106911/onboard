@@ -96,6 +96,7 @@ import DashboardFooter from "../components/Footers/DashboardFooter";
 import DashboardSettingsDrawer from "../components/Sidebars/DashboardSettingsDrawer";
 
 export default {
+  name: "Dashboard",
   components: {
     DashboardSidebar,
     DashboardHeader,

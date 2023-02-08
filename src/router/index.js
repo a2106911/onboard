@@ -1,12 +1,12 @@
-import { createRouter, createWebHistory } from 'vue-router'
-//import dashBoard from "@/layouts/Dashboard.vue"
+import { createRouter, createWebHashHistory } from 'vue-router'
+// import { dashBoard } from "@/layouts/Dashboard.vue"
 // Vue.use(VueRouter)
 
 const routes = [
 	{
 	  path: '/',
-	  name: 'dashBoard',
-	  component: () => import("../layouts/Dashboard.vue")
+	  name: 'DASHBOARD',
+	//  component: () => import("../layouts/Dashboard.vue")
 	},
 	{
 	  path: '/dashboardRTL',
@@ -14,9 +14,31 @@ const routes = [
 	  component: () => import("../layouts/DashboardRTL.vue")
 	},
 	{
-		path: '/sign-in',
-		name: 'Sign-In',
-		component: () => import('../views/Sign-In.vue'),
+	  path: '/default',
+	  name: 'default',
+	  component: () => import("../layouts/Default.vue")
+	},
+	// {
+	// 	path: '/sign-in',
+	// 	name: 'signin',
+	// 	component: () => import('../views/Sign-In.vue'),
+	// },
+	{
+		path: '/my-routes',
+		name: 'MY ROUTES',
+		// layout: dashBoard,
+		component: () => import('../views/MyRoutes.vue'),
+	},
+	{
+		// will match everything
+		path: "/:pathMatch(.*)*",
+		component: () => import('../views/404.vue'),
+	},
+	{
+		path: '/tables',
+		name: 'Tables',
+		layout: "dashboard",
+		component: () => import('../views/Tables.vue'),
 	},
 ]
 // const routes = [
@@ -59,12 +81,12 @@ const routes = [
 // 		layout: "dashboard",
 // 		component: () => import('../views/Tables.vue'),
 // 	},
-// 	{
-// 		path: '/billing',
-// 		name: 'Billing',
-// 		layout: "dashboard",
-// 		component: () => import('../views/Billing.vue'),
-// 	},
+	// {
+	// 	path: '/billing',
+	// 	name: 'Billing',
+	// 	layout: "dashboard",
+	// 	component: () => import('../views/Billing.vue'),
+	// },
 // 	{
 // 		path: '/rtl',
 // 		name: 'RTL',
@@ -116,7 +138,7 @@ const routes = [
 
 
 const router = createRouter({
-	history: createWebHistory(process.env.BASE_URL),
+	history: createWebHashHistory(process.env.BASE_URL),
 	routes
   })
 

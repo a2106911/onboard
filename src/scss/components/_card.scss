@@ -6,7 +6,12 @@
 // Cards
 
 .ant-card-body {
-    padding: 16px;
+	overflow:auto;
+	@media( min-width: $xl ) {
+		overflow:none;
+		padding: 16px;
+
+	}
 }
 
 .layout-dashboard {
