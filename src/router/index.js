@@ -40,6 +40,12 @@ const routes = [
 		layout: "dashboard",
 		component: () => import('../views/Tables.vue'),
 	},
+	{
+		path: '/test-map',
+		name: 'Billing',
+		layout: "dashboard",
+		component: () => import('../views/Billing.vue'),
+	}
 ]
 // const routes = [
 // 	// {

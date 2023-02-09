@@ -40,7 +40,6 @@
               },
             ]" type="password" placeholder="Password" />
           <a-form-item class="mb-10">
-            <a-switch v-model="rememberMe" /> Remember Me
           </a-form-item>
           <a-form-item>
             <a-button type="primary" block html-type="submit" class="login-form-button">
