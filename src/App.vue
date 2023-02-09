@@ -27,7 +27,7 @@ export default ({
 	},
 	data() {
 		return {
-			signed: false
+			signed: true
 		}
 	},
 	computed: {

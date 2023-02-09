@@ -2,21 +2,33 @@
 	<p>My Routes works!</p>
 	<!-- <Table dataSource={myRoutes} /> -->
 	<ListRoutes
+		v-if="selectedRoute === null"
 		:data="myRoutes"
 		:columns="columns"
+		@selectedRoute="getSelectedRoute"
 	></ListRoutes>
+	<!-- :selectedRoute="selectedRoute" -->
+
+	<OneRoute
+		v-else
+		:route="selectedRoute"
+	></OneRoute>
+	
 </template>
 
 <script>
-	import ListRoutes from '@/components/Lists/ListRoutes.vue' ;
+	import ListRoutes from '@/components/MyRoutes/MyRoutesListRoutes.vue' ;
+	import OneRoute from '@/components/MyRoutes/MyRoutesOneRoute.vue' ;
 
 	export default ({
 		name: "MyRoutes",
 		components: {
-			ListRoutes
+			ListRoutes,
+			OneRoute
 		},
 		data() {
 			return {
+				selectedRoute: null,
 				myRoutes: [
 					{
 						id:0,
@@ -90,6 +102,321 @@
 						destination:"Sant Quirze del Vallès",
 						length:30
 					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:26,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:20,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:440,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:140,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:1060,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:262,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:2440,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:134,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:21240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:5,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:87,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:88,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:89,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:144,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:223,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:234,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:345,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:543,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:66,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:240,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:76,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:54,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
+					{
+						id:434,
+						date:"03/02/2023",
+						plate:"1234abcd",
+						progress:90,
+						origin:"Barcelona",
+						destination:"Sant Quirze del Vallès",
+						length:30
+					},
 				],
 				columns: [
 					{
@@ -126,6 +453,13 @@
 				]
 			}
 		},
+		methods: {
+			//this method is used to receive the selected route data via emit from the ListRoutes component.
+			getSelectedRoute(route) {
+				this.selectedRoute = route;
+				console.log(this.selectedRoute);
+			}
+		}
 	})
 
 </script>
