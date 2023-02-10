@@ -9,10 +9,12 @@
 	></ListRoutes>
 	<!-- :selectedRoute="selectedRoute" -->
 
-	<OneRoute
-		v-else
-		:route="selectedRoute"
-	></OneRoute>
+	<span v-else>
+		<button @click="back">◀</button>
+		<OneRoute
+			:route="selectedRoute"
+		></OneRoute>
+	</span>
 	
 </template>
 
@@ -458,6 +460,10 @@
 			getSelectedRoute(route) {
 				this.selectedRoute = route;
 				console.log(this.selectedRoute);
+			},
+			//this method is a workaround to get back to the MyRoutes list by setting the selectedRoute value to null.
+			back() {
+				this.selectedRoute = null;
 			}
 		}
 	})

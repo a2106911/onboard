@@ -80,3 +80,11 @@ export default ({
 })
 
 </script>
+
+<style>
+	.ant-pagination {
+		display:block;
+		position:relative;
+		text-align:center;
+	}
+</style>
