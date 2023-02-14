@@ -1,44 +1,39 @@
 <template>
 
-	<!-- Authors Table Card 
-		<a-card :bordered="false" class="dashboard-bar-line header-solid">
-		<template #title>
-			<h6>Sales Overview</h6>			
-			<p>than last year <span class="text-success">+20%</span></p>	
-		</template>
-		<template #extra>
-			<a-badge color="primary" class="badge-dot-primary" text="Traffic" />
-			<a-badge color="primary" class="badge-dot-secondary" text="Sales" />
-		</template>
-		<chart-line :height="310" :data="lineChartData"></chart-line>
-	</a-card> -->
-	<p>Hola</p>
+    <!-- Your Transactions Card -->
+    <a-card :bordered="false" class="header-solid h-full" :bodyStyle="{ paddingTop: 0, paddingBottom: '16px' }">
+        <template #title>
+            <h6 class="font-semibold m-0">Map Route</h6>
+        </template>
+        <GoogleMap api-key="AIzaSyD8SCbN9ajO1phNjE3rAMkwcY-psqVEVIM" style="width: 100%; height: 500px" :center="center"
+            :zoom="8" class="mapCenter">
+            <Marker :options="{ position: center }" />
+        </GoogleMap>
+    </a-card>
+    <!-- / Your Transactions Card -->
 
 </template>
 
 <script>
+import { GoogleMap, Marker } from "vue3-google-map";
 
-	export default ({
-		name:"MapRoute",
-		// props: {
-		// 	data: {
-		// 		type: Array,
-		// 		default: () => [],
-		// 	},
-		// 	columns: {
-		// 		type: Array,
-		// 		default: () => [],
-		// 	},
-		// },
-		data() {
-			return {
-				// Active button for the "Authors" table's card header radio button group.
-				// routesHeaderBtns: 'all',
-			}
-		},
-		mounted () {
-			console.log("mapRoute");
-		}
-	})
+export default ({    
+    components: { GoogleMap, Marker },
+    props: {
+        data: {
+            type: Array,
+            default: () => [],
+        },
+    },
+    data() {
+        return {
+        }
+    },
+    setup() {
+    const center = { lat: 40.689247, lng: -74.044502 };
+
+    return { center };
+    }
+})
 
 </script>

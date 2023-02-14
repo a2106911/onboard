@@ -42,9 +42,9 @@ const routes = [
 	},
 	{
 		path: '/test-map',
-		name: 'Billing',
+		name: 'Test Map',
 		layout: "dashboard",
-		component: () => import('../views/Billing.vue'),
+		component: () => import('../views/TestMap.vue'),
 	}
 ]
 // const routes = [
