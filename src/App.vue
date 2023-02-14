@@ -18,6 +18,7 @@
 <script>
 import DashboardVue from "./layouts/Dashboard.vue";
 import SignIn from "./views/Sign-In.vue";
+import axios from "axios";
 
 
 export default ({
@@ -38,6 +39,24 @@ export default ({
 			//return "layout-" + ( this.$route.meta.layout || "default" ).toLowerCase() ;
 		}
 	},
+	created() {
+		// JSON.stringify('"password-get-token":"a827167be35df9c9dd25ab637741e769"'
+		// axios.post("http://onboard.daw.institutmontilivi.cat/api/get-random-token",
+		// 	{ JSON.parse('"password-get-token":"a827167be35df9c9dd25ab637741e769"') }
+		// )
+		// var tokenPassword = { "password-get-token" : "a827167be35df9c9dd25ab637741e769" };
+
+		axios({
+			method:"PUT",
+			url:"http://onboard.daw.institutmontilivi.cat/api/get-random-token",
+			data: {
+				"password-get-token":"a827167be35df9c9dd25ab637741e769"
+			}
+		}).then((response)=> {
+			console.log(response);
+			localStorage.setItem("temporaryToken", response.data);
+		})
+	}
 })
 
 </script>

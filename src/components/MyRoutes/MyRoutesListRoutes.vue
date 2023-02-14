@@ -87,4 +87,7 @@ export default ({
 		position:relative;
 		text-align:center;
 	}
+	a-table {
+		height:80%;
+	}
 </style>

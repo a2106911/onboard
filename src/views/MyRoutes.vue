@@ -1,5 +1,4 @@
 <template>
-	<p>My Routes works!</p>
 	<!-- <Table dataSource={myRoutes} /> -->
 	<ListRoutes
 		v-if="selectedRoute === null"

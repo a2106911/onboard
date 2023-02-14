@@ -4,6 +4,7 @@
  -->
 
 <template>
+  <!-- <button @click="log"></button> -->
 <div class="signInBackground">
   <div class="sign-in">
     <a-row type="flex" :gutter="[24, 24]" justify="space-around">
@@ -21,14 +22,12 @@
           <div class="title">ONBOARD</div>
           <a-form-item class="container-login-item" label="Email" :colon="false">
           </a-form-item>
-          <a-input v-decorator="[
-              'email',
-              {
-                rules: [
-                  { required: true, message: 'Please input your email!' },
-                ],
-              },
-            ]" placeholder="Email" />
+          <a-input 
+            v-decorator="[ 'email', { rules: [ { required: true, message: 'Please input your email!' }, ], }, ]" 
+            placeholder="Email" 
+            value="emailInput"
+            @onchange="change"
+            id="emailInput"/>
           <a-form-item class="container-login-item" label="Password" :colon="false">
           </a-form-item>
           <a-input v-decorator="[
@@ -62,6 +61,9 @@ export default {
     return {
       // Binded model property for "Sign In Form" switch button for "Remember Me" .
       rememberMe: true,
+      emailInput:null,
+      passwordInput:null,
+      // form: this.$form.createForm(this, { name: 'horizontal_login' }),
     };
   },
   beforeCreate() {
@@ -77,8 +79,20 @@ export default {
           console.log("Received values of form: ", values);
         }
       });
+    }
+    ,
+    log() {
+      console.log(this.emailInput);
     },
+    change() {
+
+    }
   },
+  watch: {
+    emailInput() {
+      console.log(this.emailInput);
+    }
+  }
 };
 </script>
 
