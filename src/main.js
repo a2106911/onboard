@@ -14,6 +14,7 @@ import { createApp } from 'vue';
 import App from './App';
 import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
+import VueGoogleMaps from '@fawmi/vue-google-maps'
 
 // import Vue from 'vue'
 // import Antd from 'ant-design-vue';
@@ -35,6 +36,13 @@ const app = createApp(App);
 app
 .use(Antd)
 .use(router)
+.use(VueGoogleMaps, {
+    load: {
+        key: 'AIzaSyD8SCbN9ajO1phNjE3rAMkwcY-psqVEVIM',
+        libraries: "places"
+        // language: 'de',
+    },
+})
 .mount('#app');
 
 
