@@ -17,31 +17,33 @@
         </h5>
 
         <!-- Sign In Form -->
-        <a-form id="components-form-demo-normal-login" :form="form" class="login-form" @submit="handleSubmit"
+        <a-form id="components-form-demo-normal-login" :form="form" class="login-form" @submit="handleSubmit1"
           :hideRequiredMark="true">
           <div class="title">ONBOARD</div>
           <a-form-item class="container-login-item" label="Email" :colon="false">
           </a-form-item>
-          <a-input 
+          <!-- <a-input 
             v-decorator="[ 'email', { rules: [ { required: true, message: 'Please input your email!' }, ], }, ]" 
             placeholder="Email" 
-            value="emailInput"
-            @onchange="change"
-            id="emailInput"/>
+            v-model="emailInput"
+            @change="change"/> -->
+            <input class="ant-input" type="text" placeholder="Email" v-model="emailInput">
           <a-form-item class="container-login-item" label="Password" :colon="false">
           </a-form-item>
-          <a-input v-decorator="[
+          <!-- <a-input v-decorator="[
               'password',
               {
                 rules: [
                   { required: true, message: 'Please input your password!' },
                 ],
               },
-            ]" type="password" placeholder="Password" />
+            ]" type="password" placeholder="Password" 
+            v-model="passwordInput"/> -->
+            <input class="ant-input" type="password" placeholder="Password" v-model="passwordInput">
           <a-form-item class="mb-10">
           </a-form-item>
           <a-form-item>
-            <a-button type="primary" block html-type="submit" class="login-form-button">
+            <a-button type="primary" block html-type="submit" class="login-form-button" @click="handleSubmit">
               SIGN IN
             </a-button>
           </a-form-item>
@@ -56,7 +58,11 @@
 </template>
 
 <script>
+import axios from "axios"
 export default {
+  components: [
+    axios
+  ],
   data() {
     return {
       // Binded model property for "Sign In Form" switch button for "Remember Me" .
@@ -74,15 +80,40 @@ export default {
     // Handles input validation after submission.
     handleSubmit(e) {
       e.preventDefault();
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          console.log("Received values of form: ", values);
+      // this.form.validateFields((err, values) => {
+      //   if (!err) {
+      //     console.log("Received values of form: ", values);
+      //   }
+      // });
+      // console.log(this.emailInput);
+      // console.log(this.passwordInput);
+
+      
+      axios({
+        method:"PUT",
+        url:"http://onboard.daw.institutmontilivi.cat/api/login",
+        // url:"http://localhost/api/login",
+        data: {
+          "temporaryToken":localStorage.getItem("temporaryToken"),
+          // "temporaryToken":"6ef48a54503a9a46a166acfedeab4fee",
+          "email":this.emailInput,
+          "password":this.passwordInput
         }
-      });
+      }).then((response)=> {
+        if (response.data != false) {
+          console.log("sign-in", response.data);
+          // var accessToken = JSON.parse(response.data);
+          // var accessToken = response.data;
+
+          // console.log(accessToken.token);
+          this.$emit("loginRequest", response.data);
+        }
+      })
+
     }
     ,
     log() {
-      console.log(this.emailInput);
+      // console.log(this.emailInput);
     },
     change() {
 
@@ -90,7 +121,8 @@ export default {
   },
   watch: {
     emailInput() {
-      console.log(this.emailInput);
+      // console.log(this.emailInput);
+      
     }
   }
 };
@@ -121,4 +153,26 @@ export default {
     background-position: center;
   }
 }
+
+.ant-input {
+  box-sizing: border-box;
+  margin: 0;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: "tnum";
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: 32px;
+  padding: 4px 11px;
+  color: rgba(0,0,0,.65);
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  transition: all .3s;
+}
+
 </style>

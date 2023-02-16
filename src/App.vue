@@ -7,7 +7,12 @@
 
 <template>
 	<dashboard-vue v-if="signed"></dashboard-vue>
-	<signIn v-if="!signed" class="absolutePositioning"></signIn>
+	<signIn 
+		v-if="!signed" 
+		class="absolutePositioning"
+		@loginRequest="processLoginRequest"
+		>
+	</signIn>
 	<!-- <div id="app"> -->
 	<!-- <router-view /> -->
 	<!-- <component :is="layout">
@@ -28,7 +33,37 @@ export default ({
 	},
 	data() {
 		return {
-			signed: true
+			loginRequest:null,
+			signed: false
+		}
+	},
+	methods: {
+		processLoginRequest(result) {
+			// console.log("app", result)
+			if(result == "false") {
+				//In case the login failed, we'll show the user a notification:
+				this.loginFailedWarning();
+			}
+			else if (result.token !== null) {
+				localStorage.setItem("accessToken", result.token);
+				this.signed = true;
+				sessionStorage.setItem("logged", "true");
+				this.$router.push("/my-routes");
+			}
+
+			// if (result) {
+			// 	this.signed = true;
+			// }
+			// else {
+			// 	this.signed = false;
+			// }
+		},
+		loginFailedWarning() {
+			this.$notification["warning"]({
+				message: 'Login error',
+				description:
+				"Your credentials do not match any user in our database. Please, try again.",
+			});
 		}
 	},
 	computed: {
@@ -40,22 +75,48 @@ export default ({
 		}
 	},
 	created() {
+		axios({
+			method:"PUT",
+			url:"http://onboard.daw.institutmontilivi.cat/api/get-random-token",
+			// url:"http://localhost/api/get-random-token",
+			data: {
+				"password-get-token":"a827167be35df9c9dd25ab637741e769"
+			}
+		}).then((response)=> {
+			// console.log(response);
+			localStorage.setItem("temporaryToken", response.data);
+		})
 		// JSON.stringify('"password-get-token":"a827167be35df9c9dd25ab637741e769"'
 		// axios.post("http://onboard.daw.institutmontilivi.cat/api/get-random-token",
 		// 	{ JSON.parse('"password-get-token":"a827167be35df9c9dd25ab637741e769"') }
 		// )
 		// var tokenPassword = { "password-get-token" : "a827167be35df9c9dd25ab637741e769" };
 
-		axios({
-			method:"PUT",
-			url:"http://onboard.daw.institutmontilivi.cat/api/get-random-token",
-			data: {
-				"password-get-token":"a827167be35df9c9dd25ab637741e769"
+		if (sessionStorage.getItem("logged") !== null) {
+			// console.log(2);
+			// console.log(sessionStorage.getItem("logged"))
+			if (sessionStorage.getItem("logged") == "true") {
+				// console.log("in")
+				this.signed = true;
+				sessionStorage.setItem("logged", "true");
 			}
-		}).then((response)=> {
-			console.log(response);
-			localStorage.setItem("temporaryToken", response.data);
-		})
+			else this.signed = false;
+		}
+		else {
+			sessionStorage.setItem("logged", "false");
+			this.signed = false;
+		}
+	},
+	watch: {
+		$route(from,to) {
+			console.log("from", from);
+			console.log("to", to);
+
+			if(from.fullPath == "/logout") {
+				this.signed = false;
+				this.$router.push("/sign-in");
+			}
+		}
 	}
 })
 

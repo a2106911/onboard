@@ -20,6 +20,7 @@
 <script>
 	import ListRoutes from '@/components/MyRoutes/MyRoutesListRoutes.vue' ;
 	import OneRoute from '@/components/MyRoutes/MyRoutesOneRoute.vue' ;
+	import axios from "axios";
 
 	export default ({
 		name: "MyRoutes",
@@ -421,8 +422,8 @@
 				],
 				columns: [
 					{
-						title: 'ID',
-						dataIndex: 'id',
+						title: 'route ID',
+						dataIndex: 'routeId',
 						scopedSlots: { customRender: 'id' },
 						// width: 300,
 					},
@@ -432,8 +433,8 @@
 						// class: 'font-semibold text-muted',
 					},
 					{
-						title: 'plate',
-						dataIndex: 'plate',
+						title: 'vehicle plate',
+						dataIndex: 'vechiclePlate',
 					},
 					{
 						title: 'progress',
@@ -448,8 +449,8 @@
 						dataIndex: 'destination',
 					},
 					{
-						title: 'length',
-						dataIndex: 'length',
+						title: 'Total Km',
+						dataIndex: 'totalKm',
 					},
 				]
 			}
@@ -464,6 +465,27 @@
 			back() {
 				this.selectedRoute = null;
 			}
+		},
+		created () {
+			axios({
+				method:"PUT",
+				url:"http://onboard.daw.institutmontilivi.cat/api/get-routes",
+				// url:"http://localhost/api/get-routes",
+				data: {
+					"accessToken":localStorage.getItem("accessToken")
+				}
+			}).then((response)=> {
+				console.log("get-routes response",response)
+				this.myRoutes = response.data;
+				// if (response.data != false) {
+				// // console.log(response.data);
+				// // var accessToken = JSON.parse(response.data);
+				// var accessToken = response.data;
+
+				// // console.log(accessToken.token);
+				// this.$emit("loginRequest", accessToken.token);
+				// }
+			})
 		}
 	})
 
