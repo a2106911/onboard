@@ -45,7 +45,34 @@ const routes = [
 		name: 'Test Map',
 		layout: "dashboard",
 		component: () => import('../views/TestMap.vue'),
+	},
+	{
+		path: '/contact-with-us',
+		name: 'CONTACT WITH US',
+		layout: "dashboard",
+		component: () => import('../views/ContactWithUs.vue'),
+	},
+	{
+		path: '/administation',
+		name: 'Administration',
+		layout: "dashboard",
+		component: () => import('../views/Administration.vue'),
+	},
+	{
+		path: '/routes-managment',
+		name: 'Routes Managment',
+		layout: "dashboard",
+		component: () => import('../views/RoutesManagment.vue'),
 	}
+	,
+	{
+		path: '/my-routes-manager',
+		name: 'My Routes',
+		layout: "dashboard",
+		component: () => import('../views/MyRoutesManagment.vue'),
+	}
+	
+
 ]
 // const routes = [
 // 	// {

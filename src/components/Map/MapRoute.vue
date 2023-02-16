@@ -18,6 +18,7 @@
 import { GoogleMap, Marker } from "vue3-google-map";
 
 export default ({    
+    name: "mapComponent",
     components: { GoogleMap, Marker },
     props: {
         data: {
