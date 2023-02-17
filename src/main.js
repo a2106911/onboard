@@ -23,7 +23,7 @@ import VueGoogleMaps from '@fawmi/vue-google-maps'
 // import DefaultLayout from './layouts/Default.vue'
 // import DashboardLayout from './layouts/Dashboard.vue'
 // import DashboardRTLLayout from './layouts/DashboardRTL.vue'
-import router from './router'
+import router from '@/router'
 // import './plugins/click-away'
 
 import './scss/app.scss';

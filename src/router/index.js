@@ -8,11 +8,11 @@ const routes = [
 	  name: 'DASHBOARD',
 	//  component: () => import("../layouts/Dashboard.vue")
 	},
-	{
-	  path: '/dashboardRTL',
-	  name: 'dashBoardRTL',
-	  component: () => import("../layouts/DashboardRTL.vue")
-	},
+	// {
+	//   path: '/dashboardRTL',
+	//   name: 'dashBoardRTL',
+	//   component: () => import("../layouts/DashboardRTL.vue")
+	// },
 	{
 	  path: '/default',
 	  name: 'default',
@@ -40,6 +40,8 @@ const routes = [
 		layout: "dashboard",
 		component: () => import('../views/Tables.vue'),
 	},
+
+	//Alberto
 	{
 		path: '/test-map',
 		name: 'Test Map',
@@ -72,7 +74,6 @@ const routes = [
 		component: () => import('../views/MyRoutesManagment.vue'),
 	}
 	
-
 ]
 // const routes = [
 // 	// {
