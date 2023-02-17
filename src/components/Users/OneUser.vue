@@ -1,26 +1,21 @@
 <template>
     <p>{{ JSON.stringify(user) }}</p>
 
-<!-- <a-row type="flex" :gutter="24">
-    <a-col :span="24" :md="10" class="mb-24">
-        <RouteInformation></RouteInformation>
+<a-row type="flex" :gutter="24">
+    <a-col :span="24" :md="20" class="mb-24">
+        <UserInformation></UserInformation>
     </a-col>
-
-    <a-col :span="24" :md="14" class="mb-24">
-        <MapRoute :data="transactionsData"></MapRoute>
-    </a-col>
-</a-row> -->
+</a-row>
 
 </template>
 
 <script>
-// import RouteInformation from "@/components/MyRoutes/RouteInformation"
-// import MapRoute from "@/components/Map/MapRoute.vue"
+import UserInformation from "@/components/Users/UserInformation.vue"
 
 export default ({
+props: ["user"],
 components: {
-    // RouteInformation,
-    // MapRoute,
+    UserInformation
 },
 data() {
     return {

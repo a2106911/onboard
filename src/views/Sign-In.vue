@@ -91,7 +91,7 @@ export default {
       
       axios({
         method:"PUT",
-        url:"http://onboard.daw.institutmontilivi.cat/api/login",
+        url:"http://localhost/api/login",
         // url:"http://localhost/api/login",
         data: {
           "temporaryToken":localStorage.getItem("temporaryToken"),

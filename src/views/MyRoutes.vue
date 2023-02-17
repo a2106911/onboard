@@ -469,7 +469,7 @@
 		created () {
 			axios({
 				method:"PUT",
-				url:"http://onboard.daw.institutmontilivi.cat/api/get-routes",
+				url:"http://localhost/api/get-routes",
 				// url:"http://localhost/api/get-routes",
 				data: {
 					"accessToken":localStorage.getItem("accessToken")
