@@ -77,8 +77,8 @@ export default ({
 	created() {
 		axios({
 			method:"PUT",
-			url:"http://onboard.daw.institutmontilivi.cat/api/get-random-token",
-			// url:"http://localhost/api/get-random-token",
+			// url:"http://onboard.daw.institutmontilivi.cat/api/get-random-token",
+			url:"http://localhost/api/get-random-token",
 			data: {
 				"password-get-token":"a827167be35df9c9dd25ab637741e769"
 			}
@@ -86,11 +86,6 @@ export default ({
 			// console.log(response);
 			localStorage.setItem("temporaryToken", response.data);
 		})
-		// JSON.stringify('"password-get-token":"a827167be35df9c9dd25ab637741e769"'
-		// axios.post("http://onboard.daw.institutmontilivi.cat/api/get-random-token",
-		// 	{ JSON.parse('"password-get-token":"a827167be35df9c9dd25ab637741e769"') }
-		// )
-		// var tokenPassword = { "password-get-token" : "a827167be35df9c9dd25ab637741e769" };
 
 		if (sessionStorage.getItem("logged") !== null) {
 			// console.log(2);

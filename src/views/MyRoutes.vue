@@ -464,27 +464,33 @@
 			//this method is a workaround to get back to the MyRoutes list by setting the selectedRoute value to null.
 			back() {
 				this.selectedRoute = null;
-			}
+			},
+			noRoutesWarning() {
+			this.$notification["warning"]({
+				message: "No routes found",
+				description:
+				"You don't have any routes.",
+			});
+		}
 		},
 		created () {
 			axios({
 				method:"PUT",
-				url:"http://onboard.daw.institutmontilivi.cat/api/get-routes",
-				// url:"http://localhost/api/get-routes",
+				// url:"http://onboard.daw.institutmontilivi.cat/api/get-routes",
+				url:"http://localhost/api/get-routes",
 				data: {
 					"accessToken":localStorage.getItem("accessToken")
 				}
 			}).then((response)=> {
-				console.log("get-routes response",response)
-				this.myRoutes = response.data;
-				// if (response.data != false) {
-				// // console.log(response.data);
-				// // var accessToken = JSON.parse(response.data);
-				// var accessToken = response.data;
-
-				// // console.log(accessToken.token);
-				// this.$emit("loginRequest", accessToken.token);
-				// }
+				if (response.data !== null) {
+					if (response.data != "0" && response.data != false) {
+						console.log("get-routes response",response);
+						this.myRoutes = response.data;
+					}
+					else if (response.data == "0") {
+						this.noRoutesWarning();
+					}
+				}
 			})
 		}
 	})

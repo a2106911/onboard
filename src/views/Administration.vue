@@ -20,6 +20,7 @@
 <script>
 	import ListUsers from '@/components/Users/ListUsers.vue' ;
 	import OneUser from '@/components/Users/OneUser.vue' ;
+	import axios from 'axios';
 
 	export default ({
 		name: "Users",
@@ -170,7 +171,41 @@
 			//this method is a workaround to get back to the MyRoutes list by setting the selectedRoute value to null.
 			back() {
 				this.selectedUser = null;
+			},
+			warning(message, description="") {
+				this.$notification["warning"]({
+					message: message,
+					description:
+					description,
+				});
 			}
+		},
+		created () {
+			axios({
+				method:"PUT",
+				// url:"http://onboard.daw.institutmontilivi.cat/api/get-all-users",
+				url:"http://localhost/api/get-routes",
+				data: {
+					"accessToken":localStorage.getItem("accessToken")
+				}
+			}).then((response)=> {
+				console.log("response.data", response.data);
+				if (response.data !== null) {
+					if (response.data != "0" && response.data != false) {
+						console.log("users response",response);
+						this.users = response.data;
+					}
+					else if (response.data == "0") {
+						this.warning("No users found");
+					}
+					else if (response.data == false) {
+						this.warning("No permissions!");
+					}
+					else {
+						this.warning("No permissions!");
+					}
+				}
+			})
 		}
 	})
 
