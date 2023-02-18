@@ -478,6 +478,7 @@
 				method:"PUT",
 				// url:"http://onboard.daw.institutmontilivi.cat/api/get-routes",
 				url:"http://localhost/api/get-routes",
+				// url:"192.1681.67:8080/api/get-routes",
 				data: {
 					"accessToken":localStorage.getItem("accessToken")
 				}

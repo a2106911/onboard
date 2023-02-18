@@ -32,132 +32,185 @@
 			return {
 				selectedUser: null,
 				users: [
+					// {
+					// 	id:0,
+					// 	dni:"4143215S",
+					// 	name:"Miquel",
+					// 	surname:"Angelo%",
+					// 	phone:"640 213 156",
+					// 	email:"miqueldiangilo@gmail.com",
+					// 	socSecNum:690,
+					// 	role:"admin"
+					// },
+					// {
+					// 	id:0,
+					// 	dni:"4143215S",
+					// 	name:"Miquel",
+					// 	surname:"Angelo%",
+					// 	phone:"640 213 156",
+					// 	email:"miqueldiangilo@gmail.com",
+					// 	socSecNum:690,
+					// 	role:"admin"
+					// },
+					// {
+					// 	id:0,
+					// 	dni:"4143215S",
+					// 	name:"Miquel",
+					// 	surname:"Angelo%",
+					// 	phone:"640 213 156",
+					// 	email:"miqueldiangilo@gmail.com",
+					// 	socSecNum:690,
+					// 	role:"admin"
+					// },
+					// {
+					// 	id:0,
+					// 	dni:"4143215S",
+					// 	name:"Miquel",
+					// 	surname:"Angelo%",
+					// 	phone:"640 213 156",
+					// 	email:"miqueldiangilo@gmail.com",
+					// 	socSecNum:690,
+					// 	role:"admin"
+					// },
+					// {
+					// 	id:0,
+					// 	dni:"4143215S",
+					// 	name:"Miquel",
+					// 	surname:"Angelo%",
+					// 	phone:"640 213 156",
+					// 	email:"miqueldiangilo@gmail.com",
+					// 	socSecNum:690,
+					// 	role:"admin"
+					// },
+					// {
+					// 	id:0,
+					// 	dni:"4143215S",
+					// 	name:"Miquel",
+					// 	surname:"Angelo%",
+					// 	phone:"640 213 156",
+					// 	email:"miqueldiangilo@gmail.com",
+					// 	socSecNum:690,
+					// 	role:"admin"
+					// },
+					// {
+					// 	id:0,
+					// 	dni:"4143215S",
+					// 	name:"Miquel",
+					// 	surname:"Angelo%",
+					// 	phone:"640 213 156",
+					// 	email:"miqueldiangilo@gmail.com",
+					// 	socSecNum:690,
+					// 	role:"admin"
+					// },
+					// {
+					// 	id:0,
+					// 	dni:"4143215S",
+					// 	name:"Miquel",
+					// 	surname:"Angelo%",
+					// 	phone:"640 213 156",
+					// 	email:"miqueldiangilo@gmail.com",
+					// 	socSecNum:690,
+					// 	role:"admin"
+					// },
+					// {
+					// 	id:0,
+					// 	dni:"4143215S",
+					// 	name:"Miquel",
+					// 	surname:"Angelo%",
+					// 	phone:"640 213 156",
+					// 	email:"miqueldiangilo@gmail.com",
+					// 	socSecNum:690,
+					// 	role:"admin"
+					// }
+				],
+				originalColumns: [
 					{
-						id:0,
-						dni:"4143215S",
-						name:"Miquel",
-						surname:"Angelo%",
-						phone:"640 213 156",
-						email:"miqueldiangilo@gmail.com",
-						socSecNum:690,
-						role:"admin"
+						title: 'ID',
+						dataIndex: 'userId',
+						scopedSlots: { customRender: 'id' },
+						// width: 300,
+						hidden: false
 					},
 					{
-						id:0,
-						dni:"4143215S",
-						name:"Miquel",
-						surname:"Angelo%",
-						phone:"640 213 156",
-						email:"miqueldiangilo@gmail.com",
-						socSecNum:690,
-						role:"admin"
+						title: 'dni',
+						dataIndex: 'nationalId',
+						// class: 'font-semibold text-muted',
+						hidden: false
 					},
 					{
-						id:0,
-						dni:"4143215S",
-						name:"Miquel",
-						surname:"Angelo%",
-						phone:"640 213 156",
-						email:"miqueldiangilo@gmail.com",
-						socSecNum:690,
-						role:"admin"
+						title: 'name',
+						dataIndex: 'name',
+						hidden: false
 					},
 					{
-						id:0,
-						dni:"4143215S",
-						name:"Miquel",
-						surname:"Angelo%",
-						phone:"640 213 156",
-						email:"miqueldiangilo@gmail.com",
-						socSecNum:690,
-						role:"admin"
+						title: 'surnames',
+						dataIndex: 'surnames',
+						hidden: false
 					},
 					{
-						id:0,
-						dni:"4143215S",
-						name:"Miquel",
-						surname:"Angelo%",
-						phone:"640 213 156",
-						email:"miqueldiangilo@gmail.com",
-						socSecNum:690,
-						role:"admin"
+						title: 'email',
+						dataIndex: 'email',
+						hidden: false
 					},
 					{
-						id:0,
-						dni:"4143215S",
-						name:"Miquel",
-						surname:"Angelo%",
-						phone:"640 213 156",
-						email:"miqueldiangilo@gmail.com",
-						socSecNum:690,
-						role:"admin"
+						title: 'socSecNum',
+						dataIndex: 'socSecNum',
+						hidden: false
 					},
 					{
-						id:0,
-						dni:"4143215S",
-						name:"Miquel",
-						surname:"Angelo%",
-						phone:"640 213 156",
-						email:"miqueldiangilo@gmail.com",
-						socSecNum:690,
-						role:"admin"
+						title: 'role',
+						dataIndex: 'role',
+						hidden: false
 					},
 					{
-						id:0,
-						dni:"4143215S",
-						name:"Miquel",
-						surname:"Angelo%",
-						phone:"640 213 156",
-						email:"miqueldiangilo@gmail.com",
-						socSecNum:690,
-						role:"admin"
-					},
-					{
-						id:0,
-						dni:"4143215S",
-						name:"Miquel",
-						surname:"Angelo%",
-						phone:"640 213 156",
-						email:"miqueldiangilo@gmail.com",
-						socSecNum:690,
-						role:"admin"
+						title: 'Activity status',
+						dataIndex: 'isActive',
+						hidden: false
 					}
 				],
 				columns: [
 					{
 						title: 'ID',
-						dataIndex: 'id',
+						dataIndex: 'userId',
 						scopedSlots: { customRender: 'id' },
 						// width: 300,
+						hidden: false
 					},
 					{
 						title: 'dni',
-						dataIndex: 'dni',
+						dataIndex: 'nationalId',
 						// class: 'font-semibold text-muted',
+						hidden: false
 					},
 					{
 						title: 'name',
 						dataIndex: 'name',
+						hidden: false
 					},
 					{
-						title: 'surname',
-						dataIndex: 'surname',
-					},
-					{
-						title: 'phone',
-						dataIndex: 'phone',
+						title: 'surnames',
+						dataIndex: 'surnames',
+						hidden: false
 					},
 					{
 						title: 'email',
 						dataIndex: 'email',
+						hidden: false
 					},
 					{
 						title: 'socSecNum',
 						dataIndex: 'socSecNum',
+						hidden: false
 					},
 					{
 						title: 'role',
 						dataIndex: 'role',
+						hidden: false
+					},
+					{
+						title: 'Activity status',
+						dataIndex: 'isActive',
+						hidden: false
 					}
 				]
 			}
@@ -178,13 +231,34 @@
 					description:
 					description,
 				});
-			}
+			},
+			//This method is triggered every time the window's size is changed.
+			//Its function is to hide or show items according to the screen inner width. If it's a phone view, fewer items will be shown.
+			checkForWindowResize() {
+				//The data will be stored on the originalColumns array. And every time we apply a filter, we'll set the visibility state of each item on the originalColumns array, and filter the columns array so that no data is ever lost.
+				if (window.innerWidth < 991) { //smartphone view:
+					this.originalColumns.filter(column => {
+						if(["nationalId","socSecNum","isActive","name","surnames"].includes(column.dataIndex)) {
+							column.hidden = true;
+						}
+						else { //userId, email, role
+							column.hidden = false;
+						}
+					})
+				}
+				else { //desktop view: (no columns hidden)
+					this.originalColumns.filter(column => {column.hidden = false});
+				}
+				// console.log("columns", this.columns);
+				this.columns = this.originalColumns.filter(column => !column.hidden);
+			},
 		},
 		created () {
 			axios({
 				method:"PUT",
 				// url:"http://onboard.daw.institutmontilivi.cat/api/get-all-users",
-				url:"http://localhost/api/get-routes",
+				url:"http://localhost/api/get-all-users",
+				// url:"192.1681.67:8080/api/get-routes",
 				data: {
 					"accessToken":localStorage.getItem("accessToken")
 				}
@@ -206,6 +280,12 @@
 					}
 				}
 			})
+
+			//This event listener will trigger every time the client's window is resized.
+			window.addEventListener('resize', this.checkForWindowResize);
+
+			//Initial screen width check to see if we need to hide table elements or not:
+			this.checkForWindowResize();
 		}
 	})
 

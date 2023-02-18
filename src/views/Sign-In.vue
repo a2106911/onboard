@@ -93,6 +93,7 @@ export default {
         method:"PUT",
         // url:"http://onboard.daw.institutmontilivi.cat/api/login",
         url:"http://localhost/api/login",
+        // url:"192.1681.67:8080/api/login",
         data: {
           "temporaryToken":localStorage.getItem("temporaryToken"),
           // "temporaryToken":"6ef48a54503a9a46a166acfedeab4fee",
