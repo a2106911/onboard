@@ -1,126 +1,328 @@
 <template>
-    <p>{{ JSON.stringify(user) }}</p>
+    <!-- <p>{{ JSON.stringify(user) }}</p> -->
 
-    <div  class="oneUserContainer">
+    <a-form @submit="handleSaveChanges">
+        <div  class="oneUserContainer">
         <!-- GENERAL USER INFO -->
         <a-card :bordered="true" class="infoAntCard">
+            <h5>GENERAL USER DETAILS: user {{ user.userId }}</h5>
             <!-- national ID -->
             <a-form-item class="container-login-item" label="DNI" :colon="false">
-                <input class="ant-input" type="text" :value="user.nationalId">
+                <input class="ant-input" type="text" v-model="this.replicaOfUser.nationalId">
             </a-form-item>
             <!-- Name -->
             <a-form-item class="container-login-item" label="Name" :colon="false">
-                <input class="ant-input" type="text" :value="user.nameInput">
+                <input class="ant-input" type="text" v-model="this.replicaOfUser.name">
             </a-form-item>
             <!-- Surnames -->
             <a-form-item class="container-login-item" label="Surnames" :colon="false">
-                <input class="ant-input" type="text" :value="user.surnamesInput">
+                <input class="ant-input" type="text" v-model="this.replicaOfUser.surnames">
+            </a-form-item>
+            <!-- Password -->
+            <a-form-item class="container-login-item" label="Password" :colon="false">
+                <input class="ant-input" type="text" v-model="this.replicaOfUser.password">
             </a-form-item>
             <!-- Email -->
             <a-form-item class="container-login-item" label="Email" :colon="false">
-                <input class="ant-input" type="text" :value="user.emailInput">
+                <input class="ant-input" type="text" v-model="this.replicaOfUser.email">
             </a-form-item>
             <!-- SocSecNum -->
             <a-form-item class="container-login-item" label="SocSecNum" :colon="false">
-                <input class="ant-input" type="text" :value="user.socSecNum">
+                <input class="ant-input" type="text" v-model="this.replicaOfUser.socSecNum">
             </a-form-item>
             <!-- Phone -->
             <a-form-item class="container-login-item" label="Phone" :colon="false">
-                <input class="ant-input" type="text" :value="user.phone">
+                <input class="ant-input" type="text" v-model="this.replicaOfUser.phone">
+            </a-form-item>
+            <!-- IsActive -->
+            <a-form-item class="container-login-item" label="Active" :colon="false" style="display:flex;flex-direction:row;">
+                <a-switch size="big" v-model:checked="this.replicaOfUser.isActive" :colon="false" checkedValue="true" unCheckedValue="false"/>
+                <!-- <input class="ant-input" type="text" v-model="this.replicaOfUser.isActive"> -->
             </a-form-item>
         </a-card>
         <!-- SPECIFIC USER INFO -->
         <a-card :bordered="true" class="infoAntCard">
-            <!-- role -->
-            <a-form-item class="container-login-item" label="Role" :colon="false">
-                <a-select default-value="Driver" :value="user.selectedRole">
-                    <a-select-option value="Driver">
-                        Driver
-                    </a-select-option>
-                    <a-select-option value="Manager">
-                        Manager
-                    </a-select-option>
-                    <a-select-option value="Admin">
-                        Admin
-                    </a-select-option>
-                </a-select>
-            </a-form-item>
-            <div v-if="selectedRole=='driver'">
-                <a-form-item class="container-login-item" label="Linked manager" :colon="false">
-                    <a-select
-                        show-search
-                        placeholder="-"
-                        @change="handleLinkedManager"
-                        v-model:value="linkedManagerInput"
-                    >
-                        <a-select-option 
-                            v-for="m in availableManagers" 
-                            v-bind:key="m.userId" 
-                            :value="m.id"
-                            >
-                            {{m.name}} {{ m.surnames }}
+            <h5>ROLE SPECIFIC DETAILS</h5>
+            <div style="height:80%">
+                    <!-- role -->
+                <a-form-item class="container-login-item" label="Role" :colon="false">
+                    <a-select v-model:value="selectedRole" disabled>
+                        <a-select-option value="driver">
+                            Driver
+                        </a-select-option>
+                        <a-select-option value="manager">
+                            Manager
+                        </a-select-option>
+                        <a-select-option value="admin">
+                            Admin
                         </a-select-option>
                     </a-select>
                 </a-form-item>
+                <!-- driver -->
+                <div v-if="selectedRole=='driver'">
+                    <!-- Linked manager -->
+                    <a-form-item class="container-login-item" label="Linked manager" :colon="false">
+                        <a-select
+                            placeholder="-"
+                            v-model:value="linkedManagerInput"
+                        >
+                            <a-select-option v-for="m in availableManagers" v-bind:key="m.userId" :value="m.userId">
+                                {{m.name}} {{ m.surnames }}
+                            </a-select-option>
+                        </a-select>
+                    </a-form-item>
+                    <!-- Default vehicle plate -->
+                    <a-form-item class="container-login-item" label="Default vehicle plate" :colon="false">
+                        <input class="ant-input" type="text" :value="driverInfo.defaultVehiclePlate">
+                    </a-form-item>
+                </div>
+                <!-- manager -->
+                <div v-else-if="selectedRole=='manager'">
+                    <a-form-item class="container-login-item" label="Linked drivers" :colon="false">
+                        <a-select
+                            mode="multiple"
+                            v-model:value="linkedDriversInput"
+                            :options="linkedDrivers"
+                        >
+                            <a-select-option 
+                                v-for="ad in availableDrivers" 
+                                v-bind:key="ad.driverId" 
+                                :value="ad.driverId"
+                                >
+                                    {{ad.name}} {{ad.surnames}}
+                            </a-select-option>
+                        </a-select>
+                    </a-form-item>
+                </div>
+                </div>
+
+            <div class="buttonsContainer">
+                <a-button type="danger" :size="size" class="buttonDiscardSave" @click="handleDiscardChanges()">
+                    Discard
+                </a-button>
+                <a-button type="primary" :size="size" class="buttonDiscardSave" htmlType="submit">
+                    Save
+                </a-button>
             </div>
         </a-card>
     </div>
+    </a-form>
 </template>
 
 <script>
 import axios from "axios"
+// import { CryptoJS } from "crypto"
 
 export default ({
     props: ["user"],
-    // components: {
-    // },
     data() {
         return {
-            selectedRole:"driver",
+            //replicaOfUser is a copy of the user prop that will enable us to modify its values and read them before submitting.
+            replicaOfUser:{
+                email:this.user.email,
+                isActive:this.user.isActive,
+                name:this.user.name,
+                password:this.user.password,
+                nationalId:this.user.nationalId,
+                phone:this.user.phone,
+                role:this.user.role,
+                socSecNum:this.user.socSecNum,
+                surnames:this.user.surnames,
+                userId:this.user.userId
+            },
+            selectedRole:null,
+            password:"",
             availableManagers:[],
-            linkedManagerInput:null
+            availableDrivers:[],
+            linkedManagerInput:null,
+            linkedDriversInput:[],
+            driverInfo:{
+                driverId:"",
+                managerId:"",
+                defaultVehiclePlate:"",
+                managerName:"",
+                managerSurnames:""
+            }
         }
     },
     methods: {
-        noAvailableManagersWarning() {
-			this.$notification["warning"]({
-				message: "No routes found",
-				description:
-				"You don't have any routes.",
-			})
+        //This method enables us to display dynamic notifications to the user.
+        notification(type, message, description="") {
+            this.$notification[type]({
+                message: message,
+                description: description
+            })
         },
-        filterOption(input, option) {
-            return (
-                option.componentOptions.children[0].text.toUpperCase().indexOf(input.toUpperCase()) >= 0
-            )
+        handleDiscardChanges() {
+            this.$emit("discardChanges");
         },
-        handleLinkedManager() {
-            // console.log(this.linkedManagerInput)
+        handleSaveChanges(e) {
+            e.preventDefault();
+            //first, we need to check if the password has been  changed:
+            if (this.user.password != this.replicaOfUser.password) {
+                console.log("password encryptation process.")
+                // console.log("1", this.password)
+                // this.password = CryptoJS.AES.encrypt(this.password, "2").toString();
+                // console.log("2", this.password)
+            }
+
+            this.updateUser();
+        },
+        getAvailableManagers() {
+            axios({
+                method:"PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/get-available-managers",
+                url:"http://localhost/api/get-available-managers",
+                // url:"192.1681.67:8080/api/get-available-managers",
+                data: {
+                    "accessToken":localStorage.getItem("accessToken")
+                }
+            }).then((response)=> {
+                if (response.data !== null) {
+                    if (response.data != "0" && response.data != false) {
+                        console.log("get-available-managers response",response);
+                        this.availableManagers = response.data;
+                    }
+                    else if (response.data == "0") {
+                        this.notification("warning", "No routes found", "You don't have any routes.");
+                    }
+                }
+                console.log("available managers",this.availableManagers)
+            })
+        },
+        getDriverInfo() {
+            axios({
+                method:"PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/get-driver",
+                url:"http://localhost/api/get-driver",
+                // url:"192.1681.67:8080/api/get-driver",
+                data: {
+                    "accessToken":localStorage.getItem("accessToken"),
+                    "driverId":this.user.userId
+                }
+            }).then((response)=> {
+                if (response.data !== null) {
+                    if (response.data != "0" && response.data != false) {
+                        console.log("get-driver response",response);
+                        //In order to prevent js crashes, we need to make sure no entries in the response have null as a value.
+                        if (response.data.defaultVehiclePlate === null) response.data.defaultVehiclePlate = "";
+                        if (response.data.managerId === null) response.data.managerId = "";
+                        if (response.data.managerName === null) response.data.managerName = "";
+                        if (response.data.managerSurnames === null) response.data.managerSurnames = "";
+                        this.driverInfo = response.data;
+                    }
+                    else if (response.data == "0") {
+                        this.notification("warning", "Warning", "The driver specific information hasn't been found.");
+                    }
+                }
+                console.log("this.driverInfo",this.driverInfo)
+            })
+        },
+        getManagerInfo() {
+            axios({
+                method:"PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/get-linked-drivers",
+                url:"http://localhost/api/get-linked-drivers",
+                // url:"192.1681.67:8080/api/get-linked-drivers",
+                data: {
+                    "accessToken":localStorage.getItem("accessToken"),
+                    "managerId":this.user.userId
+                }
+            }).then((response)=> {
+                if (response.data !== null) {
+                    if (response.data != "0" && response.data != false) {
+                        console.log("get-linked-drivers response",response);
+                        //Here we'll add any drivers that may already be linked to this manager to the select form data fields.
+                        //This way we'll be able to see what drivers are already linked to the user from the form.
+                        for(let i in response.data) {
+                            this.availableDrivers.push(response.data[i])
+                            this.linkedDriversInput.push(response.data[i].driverId);
+                        }
+                    }
+                    else if (response.data == "0") {
+                        this.notification("warning", "Warning", "The driver specific information hasn't been found.");
+                    }
+                }
+                // console.log("this.driverInfo",this.driverInfo)
+            })
+        },
+        getAvailableDrivers() {
+            axios({
+                method:"PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/get-available-drivers",
+                url:"http://localhost/api/get-available-drivers",
+                // url:"192.1681.67:8080/api/get-available-drivers",
+                data: {
+                    "accessToken":localStorage.getItem("accessToken")
+                }
+            }).then((response)=> {
+                if (response.data !== null) {
+                    if (response.data != "0" && response.data != false) {
+                        console.log("get-available-drivers response",response);
+                        this.availableDrivers = response.data;
+                    }
+                    else if (response.data == "0") {
+                        this.notification("warning", "No available drivers...", "We currently do not have any free drivers available.");
+                    }
+                }
+            })
+        },
+        updateUser() {
+            console.log(this.replicaOfUser)
+            console.log(this.user.userId)
+            axios({
+                method:"PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/modify-user",
+                url:"http://localhost/api/modify-user",
+                // url:"192.1681.67:8080/api/modify-user",
+                data: {
+                    "accessToken":localStorage.getItem("accessToken"),
+                    "userId":this.user.userId,
+                    "name":this.replicaOfUser.name,
+                    "surnames":this.replicaOfUser.surnames,
+                    "password":this.replicaOfUser.password,
+                    "nationalId":this.replicaOfUser.nationalId,
+                    "socSecNum":this.replicaOfUser.socSecNum,
+                    "phone":this.replicaOfUser.phone,
+                    "email":this.replicaOfUser.email,
+                    "role":this.replicaOfUser.role,
+                    "isActive":this.replicaOfUser.isActive,
+                    "managerId":this.linkedManagerInput,
+                    "defaultVehiclePlate":this.driverInfo.defaultVehiclePlate,
+                    "linkedDrivers":this.linkedDriversInput
+                }
+            }).then((response)=> {
+                if (response.data !== null) {
+                    if (response.data != "0" && response.data != false) {
+                        console.log("modify-user response",response);
+                        // this.availableManagers = response.data;
+                        if(response.data.driverModificationStatus == "0" && response.data.adminModificationStatus == "0") 
+                            this.notification("success", "No changes", "The data that has been sent doesn't differ from the one we already had."); 
+                        if (response.data.userModificationStatus == true) 
+                            this.notification("success", "Success!", "All your modifications have been applied.");
+
+                        this.$emit("updateValues");
+                    }
+                }
+                else 
+                    this.updateFailed("error", "Error.", "Your changes couldn't be applied.");
+            })
         }
     },
-    mounted() {
-        axios({
-            method:"PUT",
-            // url:"http://onboard.daw.institutmontilivi.cat/api/get-available-managers",
-            url:"http://localhost/api/get-available-managers",
-            // url:"192.1681.67:8080/api/get-available-managers",
-            data: {
-                "accessToken":localStorage.getItem("accessToken")
-            }
-        }).then((response)=> {
-            if (response.data !== null) {
-                if (response.data != "0" && response.data != false) {
-                    console.log("get-available-managers response",response);
-                    this.availableManagers = response.data;
-                }
-                else if (response.data == "0") {
-                    this.noAvailableManagersWarning();
-                }
-            }
-            console.log("available managers",this.availableManagers)
-        })
-
-        console.log("user", this.user)
+    mounted() {        
+        //Driver information in case the selected user is a driver:
+        if (this.user.role == "driver") {
+            this.getDriverInfo();
+            this.getAvailableManagers();
+        }
+        else if (this.user.role == "manager") {
+            this.getManagerInfo();
+            this.getAvailableDrivers();
+        }
+        
+    },
+    created () {
+        this.selectedRole = this.user.role;
     }
 })
 </script>
@@ -137,9 +339,36 @@ export default ({
     }
     .infoAntCard {
         width:100%;
+        height:100%;
     }
     .inputContainer {
         display:flex;
         align-items:center;
     }
+
+    .buttonsContainer {
+        position:relative;
+        height:20%;
+        // bottom:10px;
+        // padding-top:20px;
+        // left:50%;
+        // transform:translateX(-50%);
+        width:100%;
+        margin-top:20px;
+        display:flex;
+        flex-direction:row;
+        justify-content: space-evenly;
+        
+        @media screen and (max-width:991px) {
+            justify-content: space-between;
+        }
+    }
+
+    .buttonDiscardSave, .buttonDiscardSave {
+        width:30%;
+        @media screen and (max-width:991px) {
+            width:45%;
+        }
+    }
+    
 </style>

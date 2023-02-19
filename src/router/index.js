@@ -55,7 +55,7 @@ const routes = [
 		component: () => import('../views/ContactWithUs.vue'),
 	},
 	{
-		path: '/administation',
+		path: '/administration',
 		name: 'Administration',
 		layout: "dashboard",
 		component: () => import('../views/Administration.vue'),

@@ -12,6 +12,8 @@
 		<button @click="back">◀</button>
 		<OneUser
 			:user="selectedUser"
+			@discardChanges="discardChanges"
+			@updateValues="processUpdateValues"
 		></OneUser>
 	</span>
 	
@@ -219,7 +221,15 @@
 			//this method is used to receive the selected route data via emit from the ListRoutes component.
 			getSelectedUser(user) {
 				this.selectedUser = user;
-				console.log(this.selectedUser);
+			},
+			discardChanges() {
+				this.selectedUser = null;
+				this.getAllUsers();
+			},
+			//This method will trigger when we receive an emit from the OneUser component notifying that an update has been applied.
+			//It will enable us to refresh the data in real time.
+			processUpdateValues() {
+				this.getAllUsers();
 			},
 			//this method is a workaround to get back to the MyRoutes list by setting the selectedRoute value to null.
 			back() {
@@ -252,34 +262,38 @@
 				// console.log("columns", this.columns);
 				this.columns = this.originalColumns.filter(column => !column.hidden);
 			},
+			getAllUsers() {
+				axios({
+					method:"PUT",
+					// url:"http://onboard.daw.institutmontilivi.cat/api/get-all-users",
+					url:"http://localhost/api/get-all-users",
+					// url:"192.1681.67:8080/api/get-routes",
+					data: {
+						"accessToken":localStorage.getItem("accessToken")
+					}
+				}).then((response)=> {
+					// console.log("response.data", response.data);
+					if (response.data !== null) {
+						if (response.data != "0" && response.data != false) {
+							console.log("users response",response);
+							this.users = response.data;
+						}
+						else if (response.data == "0") {
+							this.warning("No users found");
+						}
+						else if (response.data == false) {
+							this.warning("No permissions!");
+						}
+						else {
+							this.warning("No permissions!");
+						}
+					}
+				})
+			}
 		},
 		created () {
-			axios({
-				method:"PUT",
-				// url:"http://onboard.daw.institutmontilivi.cat/api/get-all-users",
-				url:"http://localhost/api/get-all-users",
-				// url:"192.1681.67:8080/api/get-routes",
-				data: {
-					"accessToken":localStorage.getItem("accessToken")
-				}
-			}).then((response)=> {
-				console.log("response.data", response.data);
-				if (response.data !== null) {
-					if (response.data != "0" && response.data != false) {
-						console.log("users response",response);
-						this.users = response.data;
-					}
-					else if (response.data == "0") {
-						this.warning("No users found");
-					}
-					else if (response.data == false) {
-						this.warning("No permissions!");
-					}
-					else {
-						this.warning("No permissions!");
-					}
-				}
-			})
+			//First we'll fill the users' array.
+			this.getAllUsers();
 
 			//This event listener will trigger every time the client's window is resized.
 			window.addEventListener('resize', this.checkForWindowResize);
