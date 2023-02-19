@@ -6,7 +6,10 @@
         <a-col :span="24" :md="10" class="mb-24">
 
             <!-- Billing Information Card -->
-            <EditRoute></EditRoute>
+            <EditRoute
+            :route="route"
+            >
+            </EditRoute>
             <!-- / Billing Information Card -->
         </a-col>
         <!-- Your Transactions Column -->
@@ -28,6 +31,9 @@ import MapRoute from "@/components/Map/MapRoute.vue"
 
 
 export default ({
+    props: {
+        route : {}
+    },
     components: {
         EditRoute,
         MapRoute,

@@ -10,27 +10,27 @@
                 <a-card :bordered="false" class="card-billing-info">
                     <div class="col-info">
                         <div class="divDateProgress">
-                            <div><b>13/02/2022</b></div>
-                            <div> <a-progress type="dashboard" :percent="25" :width="90" :strokeWidth="10" /></div>
+                            <div><b>{{ route.date }}</b></div>
+                            <div> <a-progress type="dashboard" :percent="route.progress" :width="90" :strokeWidth="10" /></div>
                         </div>
                         <div class="divClass">
                             Date:
-                            <a-date-picker @change="onChange" />
+                            <a-date-picker :default-value="moment(route.date, dateFormat)" :format="dateFormat" />
                             <br />
                         </div>
                         <div class="divClass">
                             Truck:
-                            <a-select default-value="BT12ACA" style="width: 120px" @change="handleChange">
-                                <a-select-option value="BT12ACA">
-                                    BT12ACA
+                            <a-select :default-value=route.vehiclePlate style="width: 120px" @change="handleChange">
+                                <a-select-option :value=route.vehiclePlate>
+                                    {{ route.vehiclePlate }}
                                 </a-select-option>
                             </a-select>
                         </div>
                         <div class="divClass">
                             Drivers:
-                            <a-select default-value="Miquel" style="width: 120px" @change="handleChange">
-                                <a-select-option value="Miquel">
-                                    Miquel
+                            <a-select :default-value=route.driverName style="width: 120px" @change="handleChange">
+                                <a-select-option :value=route.driverName>
+                                    {{ route.driverName }}
                                 </a-select-option>
                             </a-select>
                         </div>
@@ -68,13 +68,7 @@
                             </svg>
                             <span class="text-danger">DELETE</span>
                         </a-button>
-                        <a-button type="danger" :size="size" class="buttonDiscardSave">
-                            Discard
-                        </a-button>
-                        <a-button type="primary" :size="size" class="buttonDiscardSave">
-                            Save
-                        </a-button>
-                        <!-- <a-button type="link" size="small">
+                        <a-button type="link" size="small">
                             <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path class="fill-muted"
@@ -85,11 +79,17 @@
                                     fill="#111827" />
                             </svg>
                             <span class="text-dark">EDIT</span>
-                        </a-button> -->
+                        </a-button>
+                        <a-button type="danger" :size="size" class="buttonDiscardSave">
+                            Discard
+                        </a-button>
+                        <a-button type="primary" :size="size" class="buttonDiscardSave">
+                            Save
+                        </a-button>
                     </div>
                 </a-card>
                 <a-card :bordered="false" class="card-billing-info rightText">
-                    <div class="totalKm">Total: 1001 km </div>
+                    <div class="totalKm">Total: {{route.totalKm}} km </div>
                 </a-card>
             </a-col>
         </a-row>
@@ -97,14 +97,23 @@
 </template>
 
 <script>
+import moment from 'moment';
 
 export default {
+
     name: 'App',
+    props: {
+        route : {}
+    },
     data() {
         return {
-        }
+            dateFormat: 'YYYY/MM/DD',
+            monthFormat: 'YYYY/MM',
+            dateFormatList: ['DD/MM/YYYY', 'DD/MM/YY'],
+    };
     },
     methods: {
+        moment,
         setPlace(e) {
             console.log(e)
         }
