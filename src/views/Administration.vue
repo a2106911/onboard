@@ -6,11 +6,17 @@
 			:user="selectedUser"
 			@discardChanges="discardChanges"
 			@updateValues="processUpdateValues"
-		></OneUser>
+			>
+		</OneUser>
 	</span>
 
 	<span v-else-if="createUserMode === true">
-
+		<button @click="back">◀</button>
+		<AddUser
+			@discardAddUser="discardAddUser"
+			@addUser="processAddUser"
+			>
+		</AddUser>
 	</span>
 
 	<ListUsers
@@ -18,6 +24,7 @@
 		:data="users"
 		:columns="columns"
 		@selectedUser="getSelectedUser"
+		@enableAddUserForm="enableCreateUserMode"
 	></ListUsers>
 	
 </template>
@@ -25,13 +32,15 @@
 <script>
 	import ListUsers from '@/components/Users/ListUsers.vue' ;
 	import OneUser from '@/components/Users/OneUser.vue' ;
+	import AddUser from '@/components/Users/AddUser.vue'
 	import axios from 'axios';
 
 	export default ({
 		name: "Users",
 		components: {
 			ListUsers,
-			OneUser
+			OneUser,
+			AddUser
 		},
 		data() {
 			return {
@@ -226,8 +235,15 @@
 			getSelectedUser(user) {
 				this.selectedUser = user;
 			},
+			enableCreateUserMode() {
+				this.createUserMode = true;
+			},
 			discardChanges() {
 				this.selectedUser = null;
+				this.getAllUsers();
+			},
+			discardAddUser() {
+				this.createUserMode = false;
 				this.getAllUsers();
 			},
 			//This method will trigger when we receive an emit from the OneUser component notifying that an update has been applied.
@@ -235,9 +251,15 @@
 			processUpdateValues() {
 				this.getAllUsers();
 			},
+			processAddUser() {
+				this.selectedUser = null;
+				this.createUserMode = false;
+				this.getAllUsers();
+			},
 			//this method is a workaround to get back to the MyRoutes list by setting the selectedRoute value to null.
 			back() {
 				this.selectedUser = null;
+				this.createUserMode = false;
 			},
 			warning(message, description="") {
 				this.$notification["warning"]({
