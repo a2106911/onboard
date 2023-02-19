@@ -20,8 +20,11 @@
             </a-form-item>
             <!-- Password -->
             <a-form-item class="container-login-item" label="Password" :colon="false">
-                <input class="ant-input" type="text" v-model="this.replicaOfUser.password">
-            </a-form-item>
+                <div style="display:flex;align-items: flex-end;justify-content: center;">
+                    <input class="ant-input" type="text" v-model="this.replicaOfUser.password" :disabled="!editPasswordMode">
+                    <a-button type="primary" @click="editPasswordToggle">Edit</a-button>
+                </div>
+                </a-form-item>
             <!-- Email -->
             <a-form-item class="container-login-item" label="Email" :colon="false">
                 <input class="ant-input" type="text" v-model="this.replicaOfUser.email">
@@ -62,14 +65,19 @@
                 <div v-if="selectedRole=='driver'">
                     <!-- Linked manager -->
                     <a-form-item class="container-login-item" label="Linked manager" :colon="false">
-                        <a-select
-                            placeholder="-"
-                            v-model:value="linkedManagerInput"
-                        >
-                            <a-select-option v-for="m in availableManagers" v-bind:key="m.userId" :value="m.userId">
-                                {{m.name}} {{ m.surnames }}
-                            </a-select-option>
-                        </a-select>
+                        <div style="display:flex;align-items: flex-end;justify-content: center;">
+                            <a-select
+                                placeholder="-"
+                                v-model:value="linkedManagerInput"
+                                clearIcon
+                                style="justify-content: center;"
+                            >
+                                <a-select-option v-for="m in availableManagers" v-bind:key="m.userId" :value="m.userId">
+                                    {{m.name}} {{ m.surnames }}
+                                </a-select-option>
+                            </a-select>
+                            <a-button type="ghost" style="height:30px;" @click="clearDriverLinkedManager">Clear</a-button>
+                        </div>
                     </a-form-item>
                     <!-- Default vehicle plate -->
                     <a-form-item class="container-login-item" label="Default vehicle plate" :colon="false">
@@ -94,7 +102,7 @@
                         </a-select>
                     </a-form-item>
                 </div>
-                </div>
+            </div>
 
             <div class="buttonsContainer">
                 <a-button type="danger" :size="size" class="buttonDiscardSave" @click="handleDiscardChanges()">
@@ -111,7 +119,7 @@
 
 <script>
 import axios from "axios"
-// import { CryptoJS } from "crypto"
+// import crypto from "crypto"
 
 export default ({
     props: ["user"],
@@ -142,7 +150,8 @@ export default ({
                 defaultVehiclePlate:"",
                 managerName:"",
                 managerSurnames:""
-            }
+            },
+            editPasswordMode:false
         }
     },
     methods: {
@@ -164,9 +173,24 @@ export default ({
                 // console.log("1", this.password)
                 // this.password = CryptoJS.AES.encrypt(this.password, "2").toString();
                 // console.log("2", this.password)
+                // console.log(this.md5Hash)
+                
             }
 
             this.updateUser();
+        },
+        clearDriverLinkedManager () {
+            this.linkedManagerInput = null;
+        },
+        editPasswordToggle() {
+            if (this.editPasswordMode) {
+                this.editPasswordMode = false;
+                this.replicaOfUser.password = this.user.password;
+            }
+            else {
+                this.editPasswordMode = true;
+                this.replicaOfUser.password = "";
+            }
         },
         getAvailableManagers() {
             axios({
@@ -323,7 +347,14 @@ export default ({
     },
     created () {
         this.selectedRole = this.user.role;
-    }
+    },
+    computed: {
+        md5Hash() {
+        const hash = crypto.createHash('md5');
+        hash.update(this.replicaOfUser.password);
+        return hash.digest('hex');
+        },
+  },
 })
 </script>
 
@@ -371,4 +402,7 @@ export default ({
         }
     }
     
+    .ant-form-item-control {
+        justify-content: center;
+    }
 </style>

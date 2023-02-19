@@ -1,14 +1,6 @@
 <template>
 	<!-- <Table dataSource={users} /> -->
-	<ListUsers
-		v-if="selectedUser === null"
-		:data="users"
-		:columns="columns"
-		@selectedUser="getSelectedUser"
-	></ListUsers>
-	<!-- :selectedUser="selectedRoute" -->
-
-	<span v-else>
+	<span v-if="selectedUser !== null">
 		<button @click="back">◀</button>
 		<OneUser
 			:user="selectedUser"
@@ -16,6 +8,17 @@
 			@updateValues="processUpdateValues"
 		></OneUser>
 	</span>
+
+	<span v-else-if="createUserMode === true">
+
+	</span>
+
+	<ListUsers
+		v-else
+		:data="users"
+		:columns="columns"
+		@selectedUser="getSelectedUser"
+	></ListUsers>
 	
 </template>
 
@@ -33,6 +36,7 @@
 		data() {
 			return {
 				selectedUser: null,
+				createUserMode:null,
 				users: [
 					// {
 					// 	id:0,
