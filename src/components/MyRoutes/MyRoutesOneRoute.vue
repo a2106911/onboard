@@ -1,6 +1,4 @@
 <template>
-		<p>{{ JSON.stringify(route) }}</p>
-
 	<a-row type="flex" :gutter="24">
 
 		<!-- Billing Information Column -->

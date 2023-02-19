@@ -1,6 +1,5 @@
 <template>
 
-    <p>{{ JSON.stringify(route) }}</p>
     <a-row type="flex" :gutter="24">
         <!-- Billing Information Column -->
         <a-col :span="24" :md="10" class="mb-24">
@@ -8,6 +7,7 @@
             <!-- Billing Information Card -->
             <EditRoute
             :route="route"
+            @discardChanges="discardChanges"
             >
             </EditRoute>
             <!-- / Billing Information Card -->
@@ -43,10 +43,10 @@ export default ({
             selectedPonits: null
         }
     },
-    // methods : {
-    //     getSelectedPonits(data){
-
-    //     }
-    // }
+    methods : {
+		discardChanges() {
+            this.$emit("discardChanges");
+		},
+    }
 })
 </script>

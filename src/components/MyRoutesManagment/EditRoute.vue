@@ -36,30 +36,18 @@
                         </div>
                         <div class="div-autocomplate">
                             <div class="divAutocomplete">
-                                <GMapAutocomplete @place_changed="setPlace" class="autocomplate divClass">
-                                </GMapAutocomplete><a-button type="primary" icon="-" :size="size"
-                                    class="buttonSumMinus" />
+                                <GMapAutocomplete @place_changed="setPlace" class="autocomplate divClass" :placeholder="route.origin"></GMapAutocomplete>
+                                <!-- <a-button type="primary" icon="-" :size="size" class="buttonSumMinus" /> -->
                             </div>
                             <div class="divAutocomplete">
-                                <GMapAutocomplete @place_changed="setPlace" class="autocomplate divClass">
-                                </GMapAutocomplete><a-button type="primary" icon="-" :size="size"
-                                    class="buttonSumMinus" />
+                                <GMapAutocomplete @place_changed="setPlace" class="autocomplate divClass" :placeholder="route.destination"></GMapAutocomplete>
+                                <!-- <a-button type="primary" icon="-" :size="size" class="buttonSumMinus" /> -->
                             </div>
-                            <div class="divAutocomplete">
-                                <GMapAutocomplete @place_changed="setPlace" class="autocomplate divClass">
-                                </GMapAutocomplete><a-button type="primary" icon="-" :size="size"
-                                    class="buttonSumMinus" />
-                            </div>
-                            <div class="divAutocomplete">
-                                <GMapAutocomplete @place_changed="setPlace" class="autocomplate divClass">
-                                </GMapAutocomplete><a-button type="primary" icon="-" :size="size"
-                                    class="buttonSumMinus" />
-                            </div>
-                            <a-button type="primary" icon="+" :size="size" class="buttonSumMinus" />
+                            <!-- <a-button type="primary" icon="+" :size="size" class="buttonSumMinus" /> -->
                         </div>
                     </div>
                     <div class="col-accept-edit-delete">
-                        <a-button type="link" size="small" class="buttonDiscardSave">
+                        <a-button type="link" size="small">
                             <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path class="fill-danger" fill-rule="evenodd" clip-rule="evenodd"
@@ -68,7 +56,7 @@
                             </svg>
                             <span class="text-danger">DELETE</span>
                         </a-button>
-                        <a-button type="link" size="small">
+                        <!-- <a-button type="link" size="small">
                             <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path class="fill-muted"
@@ -79,8 +67,8 @@
                                     fill="#111827" />
                             </svg>
                             <span class="text-dark">EDIT</span>
-                        </a-button>
-                        <a-button type="danger" :size="size" class="buttonDiscardSave">
+                        </a-button> -->
+                        <a-button type="danger" :size="size" class="buttonDiscardSave" @click="handleDiscardChanges()">
                             Discard
                         </a-button>
                         <a-button type="primary" :size="size" class="buttonDiscardSave">
@@ -98,28 +86,56 @@
 
 <script>
 import moment from 'moment';
+import axios from "axios"
 
 export default {
 
     name: 'App',
     props: {
-        route : {}
+        route: {},
+        user: Object
     },
     data() {
         return {
             dateFormat: 'YYYY/MM/DD',
             monthFormat: 'YYYY/MM',
             dateFormatList: ['DD/MM/YYYY', 'DD/MM/YY'],
-    };
+            userData: {}
+        };
     },
     methods: {
         moment,
         setPlace(e) {
             console.log(e)
+        },
+        handleDiscardChanges() {
+            this.$emit("discardChanges");
+        },
+    },
+    created() {
+        // Get Manager Id to have vehiclePlates and drivers associates to manager
+		axios({
+			method: "PUT",
+			// url:"http://onboard.daw.institutmontilivi.cat/api/get-routes",
+			url: "http://localhost/api/getUserInformation",
+			data: {
+				"accessToken": localStorage.getItem("accessToken")
+			}
+		}).then((response) => {
+			if (response.data !== null) {
+				if (response.data != "0" && response.data != false) {
+					this.userData = response.data;
+                    console.log(this.userData);
+				}
+			}
+		})
+    },
+    computed: {
+        userProps() {
+            return Object.assign({}, this.user, this.userData);
         }
     }
 }
-
 </script>
 
 <style>

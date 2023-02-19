@@ -61,8 +61,8 @@ const routes = [
 		component: () => import('../views/Administration.vue'),
 	},
 	{
-		path: '/routes-managment',
-		name: 'Routes Managment',
+		path: '/create-managment',
+		name: 'Create Route',
 		layout: "dashboard",
 		component: () => import('../views/RoutesManagment.vue'),
 	}

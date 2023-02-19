@@ -48,7 +48,18 @@ export default ({
 				localStorage.setItem("accessToken", result.token);
 				this.signed = true;
 				sessionStorage.setItem("logged", "true");
-				this.$router.push("/my-routes");
+				if (result.role == "driver")
+				{
+					this.$router.push("/my-routes");
+				}
+				else if (result.role == "manager")
+				{
+					this.$router.push("/my-routes-manager");
+				}
+				else if (result.role == "admin")
+				{
+					this.$router.push("/administration");
+				}
 			}
 
 			// if (result) {

@@ -1,88 +1,60 @@
-<template><!-- Billing Information Card -->
+<template>
     <a-card :bordered="false" class="header-solid h-full" :bodyStyle="{ paddingTop: 0, paddingBottom: '16px' }">
         <template #title>
-            <h6 class="font-semibold m-0">Create Route</h6> <!-- Here will be the progress -->
+            <h6 class="font-semibold m-0">Create Route</h6>
         </template>
         <a-row :gutter="[24, 24]">
             <a-col :span="24">
-                <a-card :bordered="false" class="card-billing-info">
-                    <div class="col-info">
-                        <div class="divDateProgress">
-                            <div><b>{{ date.dateFormat() }}</b></div>
-                            <div> <a-progress type="dashboard" :percent=progress :width="90" :strokeWidth="10" /></div>
-                        </div>
-                        <div class="divClass">
-                            Date:
-                            <a-date-picker :default-value="moment(date, dateFormatList[0])" :format="dateFormatList" />
-                        </div>
-                        <div class="divClass">
-                            Truck:
-                            <a-select default-value="BT12ACA" style="width: 120px" @change="handleChange">
-                                <a-select-option value="BT12ACA">
-                                    BT12ACA
-                                </a-select-option>
-                            </a-select>
-                        </div>
-                        <div class="divClass">
-                            Drivers:
-                            <a-select default-value="Miquel" style="width: 120px" @change="handleChange">
-                                <a-select-option value="Miquel">
-                                    Miquel
-                                </a-select-option>
-                            </a-select>
-                        </div>
-                        <div class="div-autocomplate">
-                            <div class="divAutocomplete">
-                                <GMapAutocomplete @place_changed="setPlace" class="autocomplate divClass">
-                                </GMapAutocomplete><a-button type="primary" icon="-" :size="size" class="buttonSumMinus" />
+                <a-form @submit="handleSaveChanges">
+                    <a-card :bordered="false" class="card-billing-info">
+                        <div class="col-info">
+                            <!-- date and progress, the prgoress will be always 0 when is creating the route-->
+                            <!-- <div class="divDateProgress">
+                                            <div><b>{{ formattedDate }}</b></div>
+                                            <div> <a-progress type="dashboard" :percent=progress :width="90" :strokeWidth="10" /></div>
+                                        </div> -->
+                            <!-- Date Route -->
+                            <a-form-item class="container-login-item divClass" label="Date" :colon="false">
+                                <a-date-picker v-model:value="this.route.date" format="YYYY-MM-DD" />
+                            </a-form-item>
+                            <!-- Drivers how can drive the truck -->
+                            <a-form-item class="container-login-item divClass" label="Driver" :colon="false">
+                                <a-select default-value="" style="width: 160px" @change="handleChange"
+                                    v-model:value="this.route.driverId">
+                                    <a-select-option v-for="ad in linkedDrivers" v-bind:key="ad.driverId"
+                                        :value="ad.driverId">
+                                        {{ ad.name }} {{ ad.surnames }}
+                                    </a-select-option>
+                                </a-select>
+                            </a-form-item>
+                            <div class="div-autocomplate">
+                                <div class="divAutocomplete">
+                                    <GMapAutocomplete @place_changed="setPlaceOrigin" class="autocomplate divClass inputAutocomplate"
+                                        v-model="this.route.originData">
+                                    </GMapAutocomplete>
+                                    <!-- <a-button type="primary" icon="-" :size="size" class="buttonSumMinus" /> -->
+                                </div>
+                                <div class="divAutocomplete">
+                                    <GMapAutocomplete @place_changed="setPlaceDestiantion" class="autocomplate divClass inputAutocomplate"
+                                        v-model="this.route.destinationData">
+                                    </GMapAutocomplete>
+                                    <!-- <a-button type="primary" icon="-" :size="size" class="buttonSumMinus" /> -->
+                                </div>
+                                <!-- <a-button type="primary" icon="+" :size="size" class="buttonSumMinus" /> -->
                             </div>
-                            <div class="divAutocomplete">
-                                <GMapAutocomplete @place_changed="setPlace" class="autocomplate divClass">
-                                </GMapAutocomplete><a-button type="primary" icon="-" :size="size" class="buttonSumMinus" />
-                            </div>
-                            <div class="divAutocomplete">
-                                <GMapAutocomplete @place_changed="setPlace" class="autocomplate divClass">
-                                </GMapAutocomplete><a-button type="primary" icon="-" :size="size" class="buttonSumMinus" />
-                            </div>
-                            <div class="divAutocomplete">
-                                <GMapAutocomplete @place_changed="setPlace" class="autocomplate divClass">
-                                </GMapAutocomplete><a-button type="primary" icon="-" :size="size" class="buttonSumMinus" />
-                            </div>
-                            <a-button type="primary" icon="+" :size="size" class="buttonSumMinus" />
                         </div>
-                    </div>
-                    <div class="col-accept-edit-delete">
-                        <a-button type="danger" :size="size" class="buttonDiscardSave">
-                            Discard
-                        </a-button>
-                        <a-button type="primary" :size="size" class="buttonDiscardSave">
-                            Save
-                        </a-button>
-                        <!-- <a-button type="link" size="small">
-                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path class="fill-danger" fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M9 2C8.62123 2 8.27497 2.214 8.10557 2.55279L7.38197 4H4C3.44772 4 3 4.44772 3 5C3 5.55228 3.44772 6 4 6L4 16C4 17.1046 4.89543 18 6 18H14C15.1046 18 16 17.1046 16 16V6C16.5523 6 17 5.55228 17 5C17 4.44772 16.5523 4 16 4H12.618L11.8944 2.55279C11.725 2.214 11.3788 2 11 2H9ZM7 8C7 7.44772 7.44772 7 8 7C8.55228 7 9 7.44772 9 8V14C9 14.5523 8.55228 15 8 15C7.44772 15 7 14.5523 7 14V8ZM12 7C11.4477 7 11 7.44772 11 8V14C11 14.5523 11.4477 15 12 15C12.5523 15 13 14.5523 13 14V8C13 7.44772 12.5523 7 12 7Z"
-                                        fill="#111827" />
-                                </svg>
-                                <span class="text-danger">DELETE</span>
-                            </a-button> -->
-                        <!-- <a-button type="link" size="small">
-                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path class="fill-muted"
-                                        d="M13.5858 3.58579C14.3668 2.80474 15.6332 2.80474 16.4142 3.58579C17.1953 4.36683 17.1953 5.63316 16.4142 6.41421L15.6213 7.20711L12.7929 4.37868L13.5858 3.58579Z"
-                                        fill="#111827" />
-                                    <path class="fill-muted"
-                                        d="M11.3787 5.79289L3 14.1716V17H5.82842L14.2071 8.62132L11.3787 5.79289Z"
-                                        fill="#111827" />
-                                </svg>
-                                <span class="text-dark">EDIT</span>
-                            </a-button> -->
-                    </div>
-                </a-card>
+                        <div class="col-accept-edit-delete">
+                            <a-button type="danger" :size="size" class="buttonDiscardSave" @click="discardChanges()">
+                                Discard
+                            </a-button>
+                            <a-button type="primary" :size="size" class="buttonDiscardSave" htmlType="submit">
+                                Save
+                            </a-button>
+                        </div>
+                    </a-card>
+                </a-form>
                 <a-card :bordered="false" class="card-billing-info rightText">
-                    <div class="totalKm">Total: 1001 km </div>
+                    <div class="totalKm" v-if="totalKm">Total: {{ totalKm }} km </div>
                 </a-card>
             </a-col>
         </a-row>
@@ -90,34 +62,126 @@
 </template>
 
 <script>
-import moment from 'moment';
-
+import router from '@/router';
+import axios from 'axios';
+import { Loader } from '@googlemaps/js-api-loader';
 
 export default {
     name: 'App',
-    props: {
-        date: {
-            type: Date,
-            default: function () { return new Date() }
-        },
-        progress: {
-            type: Number,
-            default: 0,
-        }
-    },
     data() {
         return {
-            dateFormat: 'YYYY/MM/DD',
-            monthFormat: 'YYYY/MM',
-            dateFormatList: ['DD/MM/YYYY', 'DD/MM/YY'],
+            user: [],
+            route: {
+                driverId: null,
+                managerId: null,
+                totalKm: null,
+                currentMapUrl: null,
+                originalMapUrl: null,
+                progress: null,
+                vehicle: null,
+                date: null,
+                origin: null,
+                originData: null,
+                destination: null,
+                destinationData:null
+            },
+            linkedDrivers: [],
         };
     },
     methods: {
-        setPlace(e) {
+        setPlaceOrigin(e) {
+            this.route.origin = e.formatted_address;
+            this.route.originData = e;
             console.log(e)
         },
-        moment,
-    }
+        setPlaceDestiantion(e) {
+            this.route.destination = e.formatted_address;
+            this.route.destinationData = e;
+        },
+        notification(type, message, description = "") {
+            this.$notification[type]({
+                message: message,
+                description: description
+            })
+        },
+        discardChanges() {
+            router.push('my-routes-manager')
+        },
+        getManagerInfo() {
+            axios({
+                method: "PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/get-linked-drivers",
+                url: "http://localhost/api/get-linked-drivers",
+                // url:"192.1681.67:8080/api/get-linked-drivers",
+                data: {
+                    "accessToken": localStorage.getItem("accessToken"),
+                    "managerId": this.user.userId
+                }
+            }).then((response) => {
+                if (response.data !== null) {
+                    if (response.data != "0" && response.data != false) {
+                        console.log("get-linked-drivers response", response);
+                        //Here we'll add any drivers that may already be linked to this manager to the select form data fields.
+                        //This way we'll be able to see what drivers are already linked to the user from the form.
+                        for (let i in response.data) {
+                            this.linkedDrivers.push(response.data[i])
+                            // this.linkedDrivers.push(response.data[i].driverId);
+                        }
+                    }
+                    else if (response.data == "0") {
+                        this.notification("warning", "Warning", "The driver specific information hasn't been found.");
+                    }
+                }
+                // console.log("this.driverInfo",this.driverInfo)
+            })
+        },
+        getCurrentUser() {
+            axios({
+                method: "PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/get-current-user",
+                url: "http://localhost/api/get-current-user",
+                data: {
+                    "accessToken": localStorage.getItem("accessToken")
+                }
+            }).then((response) => {
+                if (response.data !== null) {
+                    if (response.data != "0" && response.data != false) {
+                        console.log("get-current-user response", response);
+                        this.user = response.data;
+                    }
+                    else if (response.data == "0") {
+                        this.notification("error", "User not valid", "");
+                    }
+                }
+            })
+        },
+        handleSaveChanges(e) {
+            e.preventDefault();
+            // Check if the values are not null
+            if (this.route.date == null || this.route.driverId == null || this.route.origin == null || this.route.destination == null) {
+                this.notification("error", "Missing parameters", "");
+            }
+            else {
+                this.route.date.toISOString().replace('-', '/').split('T')[0].replace('-', '/')
+                console.log(this.user)
+                this.route.managerId = this.user.userId
+                console.log(this.route)
+                // Put the date in correct format
+
+                // this.updateUser();
+            }
+        }
+    },
+    created() {
+        this.getCurrentUser()
+        this.getManagerInfo()
+        const loader = new Loader({
+            apiKey: 'AIzaSyD8SCbN9ajO1phNjE3rAMkwcY-psqVEVIM',
+            version: 'weekly',
+        });
+        this.loader = loader;
+    },
+
 }
 
 </script>
@@ -140,6 +204,11 @@ export default {
 .divAutocomplete {
     display: flex;
     flex-direction: row;
+    width: 100%;
+}
+.inputAutocomplate
+{
+    width: 100%;
 }
 
 .buttonSumMinus {
