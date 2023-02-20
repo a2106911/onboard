@@ -8,7 +8,7 @@
 			<!-- Billing Information Card -->
 			<RouteInformation
 			:routeInfo=route
-			>
+			@updateValues="processUpdateValues">
 			</RouteInformation>
 			<!-- / Billing Information Card -->
 
@@ -45,6 +45,11 @@ export default ({
 		return {
 		}
 	},
+	methods: {
+		processUpdateValues(){
+			this.$emit("updateValues");
+		}
+	}
 })
 </script>
 
