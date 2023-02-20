@@ -168,14 +168,12 @@ export default ({
         handleSaveChanges(e) {
             e.preventDefault();
             //first, we need to check if the password has been  changed:
-            if (this.user.password != this.replicaOfUser.password) {
-                console.log("password encryptation process.")
-                // console.log("1", this.password)
-                // this.password = CryptoJS.AES.encrypt(this.password, "2").toString();
-                // console.log("2", this.password)
-                // console.log(this.md5Hash)
-                
-            }
+            if (this.user.password == this.replicaOfUser.password) {
+                this.password = this.user.password;
+            } 
+            else 
+                this.password = MD5(this.replicaOfUser.password).toString();
+            
             this.updateUser();
         },
         clearDriverLinkedManager () {
@@ -301,7 +299,7 @@ export default ({
                     "userId":this.user.userId,
                     "name":this.replicaOfUser.name,
                     "surnames":this.replicaOfUser.surnames,
-                    "password":MD5(this.replicaOfUser.password).toString(),
+                    "password":this.password,
                     "nationalId":this.replicaOfUser.nationalId,
                     "socSecNum":this.replicaOfUser.socSecNum,
                     "phone":this.replicaOfUser.phone,
