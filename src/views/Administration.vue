@@ -1,7 +1,9 @@
 <template>
-	<!-- <Table dataSource={users} /> -->
+
 	<span v-if="selectedUser !== null">
-		<button @click="back">◀</button>
+		<a-button type="default" :size="small" shape="square" @click="back">
+			◀			
+		</a-button>
 		<OneUser
 			:user="selectedUser"
 			@discardChanges="discardChanges"
@@ -11,7 +13,10 @@
 	</span>
 
 	<span v-else-if="createUserMode === true">
-		<button @click="back">◀</button>
+		<!-- <button @click="back">◀</button> -->
+		<a-button type="default" :size="small" shape="square" @click="back">
+			◀			
+		</a-button>
 		<AddUser
 			@discardAddUser="discardAddUser"
 			@addUser="processAddUser"
@@ -46,98 +51,7 @@
 			return {
 				selectedUser: null,
 				createUserMode:null,
-				users: [
-					// {
-					// 	id:0,
-					// 	dni:"4143215S",
-					// 	name:"Miquel",
-					// 	surname:"Angelo%",
-					// 	phone:"640 213 156",
-					// 	email:"miqueldiangilo@gmail.com",
-					// 	socSecNum:690,
-					// 	role:"admin"
-					// },
-					// {
-					// 	id:0,
-					// 	dni:"4143215S",
-					// 	name:"Miquel",
-					// 	surname:"Angelo%",
-					// 	phone:"640 213 156",
-					// 	email:"miqueldiangilo@gmail.com",
-					// 	socSecNum:690,
-					// 	role:"admin"
-					// },
-					// {
-					// 	id:0,
-					// 	dni:"4143215S",
-					// 	name:"Miquel",
-					// 	surname:"Angelo%",
-					// 	phone:"640 213 156",
-					// 	email:"miqueldiangilo@gmail.com",
-					// 	socSecNum:690,
-					// 	role:"admin"
-					// },
-					// {
-					// 	id:0,
-					// 	dni:"4143215S",
-					// 	name:"Miquel",
-					// 	surname:"Angelo%",
-					// 	phone:"640 213 156",
-					// 	email:"miqueldiangilo@gmail.com",
-					// 	socSecNum:690,
-					// 	role:"admin"
-					// },
-					// {
-					// 	id:0,
-					// 	dni:"4143215S",
-					// 	name:"Miquel",
-					// 	surname:"Angelo%",
-					// 	phone:"640 213 156",
-					// 	email:"miqueldiangilo@gmail.com",
-					// 	socSecNum:690,
-					// 	role:"admin"
-					// },
-					// {
-					// 	id:0,
-					// 	dni:"4143215S",
-					// 	name:"Miquel",
-					// 	surname:"Angelo%",
-					// 	phone:"640 213 156",
-					// 	email:"miqueldiangilo@gmail.com",
-					// 	socSecNum:690,
-					// 	role:"admin"
-					// },
-					// {
-					// 	id:0,
-					// 	dni:"4143215S",
-					// 	name:"Miquel",
-					// 	surname:"Angelo%",
-					// 	phone:"640 213 156",
-					// 	email:"miqueldiangilo@gmail.com",
-					// 	socSecNum:690,
-					// 	role:"admin"
-					// },
-					// {
-					// 	id:0,
-					// 	dni:"4143215S",
-					// 	name:"Miquel",
-					// 	surname:"Angelo%",
-					// 	phone:"640 213 156",
-					// 	email:"miqueldiangilo@gmail.com",
-					// 	socSecNum:690,
-					// 	role:"admin"
-					// },
-					// {
-					// 	id:0,
-					// 	dni:"4143215S",
-					// 	name:"Miquel",
-					// 	surname:"Angelo%",
-					// 	phone:"640 213 156",
-					// 	email:"miqueldiangilo@gmail.com",
-					// 	socSecNum:690,
-					// 	role:"admin"
-					// }
-				],
+				users: [],
 				originalColumns: [
 					{
 						title: 'ID',
@@ -178,7 +92,7 @@
 						hidden: false
 					},
 					{
-						title: 'Activity status',
+						title: 'Active',
 						dataIndex: 'isActive',
 						hidden: false
 					}
@@ -223,7 +137,7 @@
 						hidden: false
 					},
 					{
-						title: 'Activity status',
+						title: 'Active',
 						dataIndex: 'isActive',
 						hidden: false
 					}
@@ -301,7 +215,7 @@
 					// console.log("response.data", response.data);
 					if (response.data !== null) {
 						if (response.data != "0" && response.data != false) {
-							console.log("users response",response);
+							// console.log("users response",response);
 							this.users = response.data;
 						}
 						else if (response.data == "0") {

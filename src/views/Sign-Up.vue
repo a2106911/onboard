@@ -135,14 +135,14 @@ export default {
   },
   methods: {
     // Handles input validation after submission.
-    handleSubmit(e) {
-      e.preventDefault();
-      this.form.validateFields((err, values) => {
-        if (!err) {
-          console.log("Received values of form: ", values);
-        }
-      });
-    },
+    // handleSubmit(e) {
+    //   e.preventDefault();
+    //   this.form.validateFields((err, values) => {
+    //     if (!err) {
+    //       console.log("Received values of form: ", values);
+    //     }
+    //   });
+    // },
   },
 };
 </script>

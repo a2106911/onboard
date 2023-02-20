@@ -9,7 +9,9 @@
 	<!-- :selectedRoute="selectedRoute" -->
 
 	<span v-else>
-		<button @click="back">◀</button>
+		<a-button type="default" :size="small" shape="square" @click="back">
+			◀			
+		</a-button>
 		<OneRoute
 			:route="selectedRoute"
 		></OneRoute>
@@ -71,7 +73,7 @@
 			//this method is used to receive the selected route data via emit from the ListRoutes component.
 			getSelectedRoute(route) {
 				this.selectedRoute = route;
-				console.log(this.selectedRoute);
+				// console.log(this.selectedRoute);
 			},
 			//this method is a workaround to get back to the MyRoutes list by setting the selectedRoute value to null.
 			back() {
@@ -97,7 +99,7 @@
 			}).then((response)=> {
 				if (response.data !== null) {
 					if (response.data != "0" && response.data != false) {
-						console.log("get-routes response",response);
+						// console.log("get-routes response",response);
 						this.myRoutes = response.data;
 					}
 					else if (response.data == "0") {

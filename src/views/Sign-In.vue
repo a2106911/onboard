@@ -96,17 +96,11 @@ export default {
         // url:"192.1681.67:8080/api/login",
         data: {
           "temporaryToken":localStorage.getItem("temporaryToken"),
-          // "temporaryToken":"6ef48a54503a9a46a166acfedeab4fee",
           "email":this.emailInput,
           "password":this.passwordInput
         }
       }).then((response)=> {
         if (response.data != false) {
-          console.log("sign-in", response.data);
-          // var accessToken = JSON.parse(response.data);
-          // var accessToken = response.data;
-
-          // console.log(accessToken.token);
           this.$emit("loginRequest", response.data);
         }
       })

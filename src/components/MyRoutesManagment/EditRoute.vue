@@ -15,17 +15,18 @@
                         </div>
                         <div class="divClass">
                             Date:
-                            <a-date-picker :default-value="moment(route.date, dateFormat)" :format="dateFormat" />
+                            <!-- <a-date-picker :default-value="moment(route.date, dateFormat)" :format="dateFormat" /> -->
+                            <a-date-picker v-model="date" :format="dateFormat" />
                             <br />
                         </div>
-                        <div class="divClass">
+                        <!-- <div class="divClass">
                             Truck:
                             <a-select :default-value=route.vehiclePlate style="width: 120px" @change="handleChange">
                                 <a-select-option :value=route.vehiclePlate>
                                     {{ route.vehiclePlate }}
                                 </a-select-option>
                             </a-select>
-                        </div>
+                        </div> -->
                         <div class="divClass">
                             Drivers:
                             <a-select :default-value=route.driverName style="width: 120px" @change="handleChange">
@@ -113,7 +114,7 @@ export default {
         },
     },
     created() {
-        // Get Manager Id to have vehiclePlates and drivers associates to manager
+        // Get Manager Id to have vehiclePlates and drivers associated to manager
 		axios({
 			method: "PUT",
 			// url:"http://onboard.daw.institutmontilivi.cat/api/get-routes",

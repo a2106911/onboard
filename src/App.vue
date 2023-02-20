@@ -114,9 +114,10 @@ export default ({
 		}
 	},
 	watch: {
+		// eslint-disable-next-line no-unused-vars
 		$route(from,to) {
-			console.log("from", from);
-			console.log("to", to);
+			// console.log("from", from);
+			// console.log("to", to);
 
 			if(from.fullPath == "/logout") {
 				this.signed = false;

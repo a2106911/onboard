@@ -16,7 +16,7 @@
         <a-col :span="24" :md="12" class="mb-24">
 
             <!-- Your Transactions Card -->
-            <MapRoute @selectedPonits="getSelectedPonits"></MapRoute>
+            <MapRoute @selectedPoints="getSelectedPoints"></MapRoute>
             <!-- / Your Transactions Card -->
 
         </a-col>
@@ -36,11 +36,11 @@ export default ({
     },
     components: {
         EditRoute,
-        MapRoute,
+        MapRoute
     },
     data() {
         return {
-            selectedPonits: null
+            selectedPoints: null
         }
     },
     methods : {

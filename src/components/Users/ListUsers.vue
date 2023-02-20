@@ -37,9 +37,7 @@ export default ({
 		}
 	},
 	methods: {
-		routeClick(e) {
-			console.log(e);
-		},
+		
 		//This method enables the a-table component to detect which row has been clicked.
 		customRow(record) {
 			return {

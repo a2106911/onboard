@@ -162,7 +162,7 @@ export default ({
         handleAddUser(e) {
             e.preventDefault();
             //first, we need to check if the password has been  changed:
-            console.log("password encryptation process.")
+            // console.log("password encryptation process.")
                 // console.log("1", this.password)
                 // this.password = CryptoJS.AES.encrypt(this.password, "2").toString();
                 // console.log("2", this.password)
@@ -186,14 +186,12 @@ export default ({
             }).then((response)=> {
                 if (response.data !== null) {
                     if (response.data != "0" && response.data != false) {
-                        console.log("get-available-managers response",response);
                         this.availableManagers = response.data;
                     }
                     else if (response.data == "0") {
                         this.notification("warning", "No routes found", "You don't have any routes.");
                     }
                 }
-                console.log("available managers",this.availableManagers)
             })
         },
         getAvailableDrivers() {
@@ -208,7 +206,7 @@ export default ({
             }).then((response)=> {
                 if (response.data !== null) {
                     if (response.data != "0" && response.data != false) {
-                        console.log("get-available-drivers response",response);
+                        // console.log("get-available-drivers response",response);
                         this.availableDrivers = response.data;
                     }
                     else if (response.data == "0") {
@@ -218,7 +216,6 @@ export default ({
             })
         },
         addUser() {
-            console.log(this.user)
             axios({
                 method:"PUT",
                 // url:"http://onboard.daw.institutmontilivi.cat/api/create-user",

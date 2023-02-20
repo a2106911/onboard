@@ -192,7 +192,6 @@ export default {
 			}).then((response) => {
 				if (response.data !== null) {
 					if (response.data != "0" && response.data != false) {
-						console.log("get-current-user response", response);
 						this.user = response.data;
 					}
 					else if (response.data == "0") {

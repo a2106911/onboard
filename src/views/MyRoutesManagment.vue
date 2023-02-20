@@ -4,7 +4,9 @@
 	<!-- :selectedRoute="selectedRoute" -->
 
 	<span v-else>
-		<button @click="back">◀</button>
+		<a-button type="default" :size="small" shape="square" @click="back">
+			◀			
+		</a-button>
 		<ManagmentOneRoute 
 			:route="selectedRoute" 
 			@discardChanges="discardChanges">
@@ -133,10 +135,10 @@ export default ({
 		//this method is used to receive the selected route data via emit from the ListRoutes component.
 		getSelectedRoute(route) {
 			this.selectedRoute = route;
-			console.log(this.selectedRoute);
+			// console.log(this.selectedRoute);
 		},
 		discardChanges() {
-			console.log("pulame")
+			// console.log("pulame")
 			this.selectedRoute = null;
 			this.getAllRoutes();
 		},
@@ -182,7 +184,7 @@ export default ({
 			}).then((response) => {
 				if (response.data !== null) {
 					if (response.data != "0" && response.data != false) {
-						console.log("get-routes response", response);
+						// console.log("get-routes response", response);
 						this.myRoutes = response.data;
 					}
 					else if (response.data == "0") {
@@ -203,7 +205,7 @@ export default ({
 		}).then((response) => {
 			if (response.data !== null) {
 				if (response.data != "0" && response.data != false) {
-					console.log("get-routes response", response);
+					// console.log("get-routes response", response);
 					this.myRoutes = response.data;
 				}
 				else if (response.data == "0") {

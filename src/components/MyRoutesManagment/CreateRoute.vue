@@ -14,34 +14,49 @@
                                             <div> <a-progress type="dashboard" :percent=progress :width="90" :strokeWidth="10" /></div>
                                         </div> -->
                             <!-- Date Route -->
-                            <a-form-item class="container-login-item divClass" label="Date" :colon="false">
-                                <a-date-picker v-model:value="this.route.date" format="YYYY-MM-DD" />
+                            <a-form-item class="container-login-item" label="Date" :colon="false">
+                                <a-date-picker v-model:value="this.route.date" format="YYYY-MM-DD" class="selectInput"/>
                             </a-form-item>
                             <!-- Drivers how can drive the truck -->
-                            <a-form-item class="container-login-item divClass" label="Driver" :colon="false">
-                                <a-select default-value="" style="width: 160px" @change="handleChange"
-                                    v-model:value="this.route.driverId">
+                            <a-form-item class="container-login-item" label="Driver" :colon="false">
+                                <a-select default-value="" @change="handleChange"
+                                    v-model:value="this.route.driverId" class="selectInput">
                                     <a-select-option v-for="ad in linkedDrivers" v-bind:key="ad.driverId"
                                         :value="ad.driverId">
                                         {{ ad.name }} {{ ad.surnames }}
                                     </a-select-option>
                                 </a-select>
                             </a-form-item>
-                            <div class="div-autocomplate">
+
+
+                            <!-- <div class="div-autocomplete">
                                 <div class="divAutocomplete">
-                                    <GMapAutocomplete @place_changed="setPlaceOrigin" class="autocomplate divClass inputAutocomplate"
+                                    <GMapAutocomplete @place_changed="setPlaceOrigin" class="autocomplete divClass inputAutocomplete"
                                         v-model="this.route.originData">
                                     </GMapAutocomplete>
-                                    <!-- <a-button type="primary" icon="-" :size="size" class="buttonSumMinus" /> -->
                                 </div>
                                 <div class="divAutocomplete">
-                                    <GMapAutocomplete @place_changed="setPlaceDestiantion" class="autocomplate divClass inputAutocomplate"
+                                    <GMapAutocomplete @place_changed="setPlaceDestiantion" class="autocomplete divClass inputAutocomplete"
                                         v-model="this.route.destinationData">
                                     </GMapAutocomplete>
-                                    <!-- <a-button type="primary" icon="-" :size="size" class="buttonSumMinus" /> -->
                                 </div>
-                                <!-- <a-button type="primary" icon="+" :size="size" class="buttonSumMinus" /> -->
+                            </div> -->
+
+                            <div class="div-autocomplete">
+                                <GMapAutocomplete 
+                                    v-for="(routePoint, i) in routePoints"
+                                    :key="i"
+                                    @place_changed="setPoint($event,i)"
+                                    >
+                                </GMapAutocomplete>
+                                <div style="display: flex; gap:20px;">
+                                    <a-button @click="removeRoutePoint" :disabled="!routePoints.length >= 1">➖</a-button>
+                                    <a-button @click="addRoutePoint">➕</a-button>
+                                </div>
+
                             </div>
+
+
                         </div>
                         <div class="col-accept-edit-delete">
                             <a-button type="danger" :size="size" class="buttonDiscardSave" @click="discardChanges()">
@@ -74,30 +89,47 @@ export default {
             route: {
                 driverId: null,
                 managerId: null,
-                totalKm: null,
-                currentMapUrl: null,
-                originalMapUrl: null,
-                progress: null,
-                vehicle: null,
-                date: null,
-                origin: null,
-                originData: null,
-                destination: null,
-                destinationData:null
+                totalKm: "",
+                currentMapUrl: "",
+                originalMapUrl: "",
+                progress: "",
+                vehicle: "",
+                date: "",
+                origin: "",
+                originData: "",
+                destination: "",
+                destinationData:""
             },
             linkedDrivers: [],
+            routePoints: []
         };
     },
     methods: {
-        setPlaceOrigin(e) {
-            this.route.origin = e.formatted_address;
-            this.route.originData = e;
-            console.log(e)
+        setPoint(e,i) {
+            this.routePoints[i].address = e.formatted_address;
+            this.routePoints[i].coordinates = e.location;
+            this.routePoints[i].sortingPosition = i;
+            // console.log(e.geometry.location)
         },
-        setPlaceDestiantion(e) {
-            this.route.destination = e.formatted_address;
-            this.route.destinationData = e;
+        removeRoutePoint() {
+            this.routePoints.pop();
         },
+        addRoutePoint() {
+            this.routePoints.push({
+                address:"",
+                sortingPosition:null,
+                coordinates:""
+            })
+        },
+        // setPlaceOrigin(e) {
+        //     this.route.origin = e.formatted_address;
+        //     this.route.originData = e;
+        //     console.log(e)
+        // },
+        // setPlaceDestiantion(e) {
+        //     this.route.destination = e.formatted_address;
+        //     this.route.destinationData = e;
+        // },
         notification(type, message, description = "") {
             this.$notification[type]({
                 message: message,
@@ -105,7 +137,7 @@ export default {
             })
         },
         discardChanges() {
-            router.push('my-routes-manager')
+            router.push('my-routes-manager');
         },
         getManagerInfo() {
             axios({
@@ -114,8 +146,7 @@ export default {
                 url: "http://localhost/api/get-linked-drivers",
                 // url:"192.1681.67:8080/api/get-linked-drivers",
                 data: {
-                    "accessToken": localStorage.getItem("accessToken"),
-                    "managerId": this.user.userId
+                    "accessToken": localStorage.getItem("accessToken")
                 }
             }).then((response) => {
                 if (response.data !== null) {
@@ -146,7 +177,7 @@ export default {
             }).then((response) => {
                 if (response.data !== null) {
                     if (response.data != "0" && response.data != false) {
-                        console.log("get-current-user response", response);
+                        // console.log("get-current-user response", response);
                         this.user = response.data;
                     }
                     else if (response.data == "0") {
@@ -155,20 +186,57 @@ export default {
                 }
             })
         },
+        createRoute() {
+            axios({
+                method:"PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/create-route",
+                url:"http://localhost/api/create-route",
+                // url:"192.1681.67:8080/api/create-route",
+                data: {
+                    "accessToken":localStorage.getItem("accessToken"),
+                    "driverId":this.route.driverId,
+                    "totalKm":this.route.totalKm,
+                    "currentMapUrl":this.route.currentMapUrl,
+                    "originalMapUrl":this.route.originalMapUrl,
+                    "progress":this.route.progress,
+                    "vehiclePlate":this.route.vehiclePlate,
+                    "date":this.route.date.toISOString().replace('-', '/').split('T')[0].replace('-', '/'),
+                    "origin":this.routePoints[0].address,
+                    "destination":this.routePoints.slice(-1)[0].address, //this gets the last element of the routePoints array
+                }
+            }).then((response)=> {
+                if (response.data !== null) {
+                    if (response.data == true) {
+                        this.notification("success", "Success!", `The route has been created successfully.`);
+                        this.discardChanges();
+                    }
+                    else {
+                        this.notification("error", "Error...", `The route couldn't be created.`);
+                    }
+                }
+                else 
+                    this.notification("error", "Error...", `The route couldn't be created.`);
+            })
+        },
         handleSaveChanges(e) {
             e.preventDefault();
+            // console.log(this.routePoints.slice(-1)[0].address)
+            console.log("route",this.route)
             // Check if the values are not null
+            this.route.origin = this.routePoints[0].address;
+            this.route.destination = this.routePoints.slice(-1)[0].address;
             if (this.route.date == null || this.route.driverId == null || this.route.origin == null || this.route.destination == null) {
+            //     console.log(this.route);
                 this.notification("error", "Missing parameters", "");
             }
             else {
-                this.route.date.toISOString().replace('-', '/').split('T')[0].replace('-', '/')
-                console.log(this.user)
-                this.route.managerId = this.user.userId
-                console.log(this.route)
-                // Put the date in correct format
+            //     // this.route.date.toISOString().replace('-', '/').split('T')[0].replace('-', '/')
+            //     // console.log(this.user)
+            //     // this.route.managerId = this.user.userId
+            //     // console.log(this.route)
+            //     // Put the date in correct format
 
-                // this.updateUser();
+                this.createRoute();
             }
         }
     },
@@ -186,7 +254,7 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss">
 .buttonDiscardSave {
     margin-left: 20px;
     margin-right: 20px;
@@ -206,17 +274,13 @@ export default {
     flex-direction: row;
     width: 100%;
 }
-.inputAutocomplate
+.inputAutocomplete
 {
     width: 100%;
 }
 
 .buttonSumMinus {
     height: 34px;
-}
-
-.divClass {
-    margin-bottom: 10px;
 }
 
 .divDateProgress {
@@ -233,7 +297,7 @@ export default {
     text-align: center;
 }
 
-.autocomplate {
+.autocomplete {
     border-radius: 6px;
     font-weight: 600;
     font-size: 12px;
@@ -245,9 +309,10 @@ export default {
     height: auto;
     padding-bottom: 10px;
     color: #141414;
+
 }
 
-.div-autocomplate {
+.div-autocomplete {
     margin-top: 10px;
     clear: both;
     left: 50%;
@@ -316,4 +381,35 @@ a-button :hover {
     font-size: medium;
     font-weight: 600;
 }
+
+/* GOOGLE MAPS API ELEMENTS */
+.pac-target-input {
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
+    margin-bottom: 10px;
+    float: right;
+    height: auto;
+    padding-bottom: 10px;
+    color: #141414;
+
+    @media screen and (max-width:991px) {
+        width:80%;
+    }
+}
+
+.ant-picker, .ant-select-selector, .ant-select {
+    @media screen and (max-width:991px) {
+        width:80%;
+    } 
+}
+.selectInput {
+    @media screen and (max-width:991px) {
+        width:100%;        
+    }
+}
+
 </style>
