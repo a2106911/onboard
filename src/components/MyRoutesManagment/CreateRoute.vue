@@ -1,7 +1,7 @@
 <template>
     <a-card :bordered="false" class="header-solid h-full" :bodyStyle="{ paddingTop: 0, paddingBottom: '16px' }">
         <template #title>
-            <h6 class="font-semibold m-0">Create Route</h6>
+            <h6 class="font-semibold m-0">Route details</h6>
         </template>
         <a-row :gutter="[24, 24]">
             <a-col :span="24">
@@ -43,6 +43,8 @@
                             </div> -->
 
                             <div class="div-autocomplete">
+                                <h5>Route points</h5>
+                                <span v-if="routePoints.length <= 0" style="margin-bottom:15px;">Click on the "+" below to start adding route points.</span>
                                 <GMapAutocomplete 
                                     v-for="(routePoint, i) in routePoints"
                                     :key="i"
@@ -395,9 +397,10 @@ a-button :hover {
     height: auto;
     padding-bottom: 10px;
     color: #141414;
+    width:80%;
 
     @media screen and (max-width:991px) {
-        width:80%;
+        width:90%;
     }
 }
 
@@ -407,9 +410,11 @@ a-button :hover {
     } 
 }
 .selectInput {
-    @media screen and (max-width:991px) {
+    // @media screen and (max-width:991px) {
         width:100%;        
-    }
+    // }
 }
+
+
 
 </style>

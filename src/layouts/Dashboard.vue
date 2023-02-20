@@ -31,6 +31,7 @@
           :navbarFixed="navbarFixed"
           @toggleSettingsDrawer="toggleSettingsDrawer"
           @toggleSidebar="toggleSidebar"
+          :displayName="displayName"
         ></DashboardHeader>
         <!-- / Layout Header's Conditionally Fixed Wrapper -->
 
@@ -77,6 +78,7 @@ import DashboardSidebar from "../components/Sidebars/DashboardSidebar";
 import DashboardHeader from "../components/Headers/DashboardHeader";
 import DashboardFooter from "../components/Footers/DashboardFooter";
 import DashboardSettingsDrawer from "../components/Sidebars/DashboardSettingsDrawer";
+import axios from "axios";
 
 export default {
   name: "Dashboard",
@@ -102,6 +104,8 @@ export default {
 
       // Settings drawer visiblility status.
       showSettingsDrawer: false,
+
+      displayName:""
     };
   },
   methods: {
@@ -120,6 +124,23 @@ export default {
     updateSidebarColor(value) {
       this.sidebarColor = value;
     },
+    getCurrentUser () {
+      axios({
+        method:"PUT",
+        // url:"http://onboard.daw.institutmontilivi.cat/api/get-current-user",
+        url:"http://localhost/api/get-current-user",
+        // url:"192.1681.67:8080/api/get-current-user",
+        data: {
+          "accessToken":localStorage.getItem("accessToken"),
+        }
+      }).then((response)=> {
+        // console.log(this.response)
+        this.displayName = response.data.name + " " + response.data.surnames;
+      })
+    }
+  },
+  created() {
+    this.getCurrentUser();
   },
   computed: {
     // Sets layout's element's class based on route's meta data.
