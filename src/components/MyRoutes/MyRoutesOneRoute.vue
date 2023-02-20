@@ -1,11 +1,15 @@
 <template>
+	<p>{{ JSON.stringify(route) }}</p>
 	<a-row type="flex" :gutter="24">
 
 		<!-- Billing Information Column -->
 		<a-col :span="24" :md="10" class="mb-24">
 
 			<!-- Billing Information Card -->
-			<RouteInformation></RouteInformation>
+			<RouteInformation
+			:routeInfo=route
+			>
+			</RouteInformation>
 			<!-- / Billing Information Card -->
 
 		</a-col>
@@ -30,13 +34,15 @@ import RouteInformation from "@/components/MyRoutes/RouteInformation"
 import MapRoute from "@/components/Map/MapRoute.vue"
 
 export default ({
+	props: [
+		"route"
+	],
 	components: {
 		RouteInformation,
 		MapRoute,
 	},
 	data() {
 		return {
-
 		}
 	},
 })

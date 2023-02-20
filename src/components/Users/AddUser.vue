@@ -116,7 +116,7 @@
 
 <script>
 import axios from "axios"
-// import crypto from "crypto"
+import { MD5 } from 'crypto-js';
 
 export default ({
     name: "AddUser",
@@ -167,8 +167,9 @@ export default ({
                 // this.password = CryptoJS.AES.encrypt(this.password, "2").toString();
                 // console.log("2", this.password)
                 // console.log(this.md5Hash)
-                
-
+            
+            // Here will encrypt the password 
+            this.user.password = MD5(this.user.password).toString();
             this.addUser();
         },
         clearDriverLinkedManager () {
@@ -259,13 +260,6 @@ export default ({
     created () {
 
     },
-//     computed: {
-//         md5Hash() {
-//         const hash = crypto.createHash('md5');
-//         hash.update(this.replicaOfUser.password);
-//         return hash.digest('hex');
-//         },
-//   },
 })
 </script>
 

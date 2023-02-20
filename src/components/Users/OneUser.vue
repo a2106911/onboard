@@ -119,7 +119,7 @@
 
 <script>
 import axios from "axios"
-// import crypto from "crypto"
+import { MD5 } from 'crypto-js';
 
 export default ({
     props: ["user"],
@@ -176,7 +176,6 @@ export default ({
                 // console.log(this.md5Hash)
                 
             }
-
             this.updateUser();
         },
         clearDriverLinkedManager () {
@@ -302,7 +301,7 @@ export default ({
                     "userId":this.user.userId,
                     "name":this.replicaOfUser.name,
                     "surnames":this.replicaOfUser.surnames,
-                    "password":this.replicaOfUser.password,
+                    "password":MD5(this.replicaOfUser.password).toString(),
                     "nationalId":this.replicaOfUser.nationalId,
                     "socSecNum":this.replicaOfUser.socSecNum,
                     "phone":this.replicaOfUser.phone,

@@ -59,6 +59,8 @@
 
 <script>
 import axios from "axios"
+import { MD5 } from 'crypto-js';
+
 export default {
   components: [
     axios
@@ -80,15 +82,8 @@ export default {
     // Handles input validation after submission.
     handleSubmit(e) {
       e.preventDefault();
-      // this.form.validateFields((err, values) => {
-      //   if (!err) {
-      //     console.log("Received values of form: ", values);
-      //   }
-      // });
-      // console.log(this.emailInput);
-      // console.log(this.passwordInput);
-
-      
+      console.log(this.passwordInput)
+      console.log(MD5(this.passwordInput).toString())
       axios({
         method:"PUT",
         // url:"http://onboard.daw.institutmontilivi.cat/api/login",
@@ -97,7 +92,7 @@ export default {
         data: {
           "temporaryToken":localStorage.getItem("temporaryToken"),
           "email":this.emailInput,
-          "password":this.passwordInput
+          "password":MD5(this.passwordInput).toString() // Encrypting the password from user
         }
       }).then((response)=> {
         if (response.data != false) {

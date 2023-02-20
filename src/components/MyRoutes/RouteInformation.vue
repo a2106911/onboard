@@ -1,5 +1,4 @@
 <template>
-
     <!-- Billing Information Card -->
     <a-card :bordered="false" class="header-solid h-full" :bodyStyle="{ paddingTop: 0, paddingBottom: '16px' }">
         <template #title>
@@ -10,13 +9,13 @@
                 <a-card :bordered="false" class="card-billing-info">
                     <div class="col-info">
                         <div class="divDateProgress">
-                            <div><b>13/02/2022</b></div>
-                            <div> <a-progress type="dashboard" :percent="25" :width="90" :strokeWidth="10" /></div>
+                            <div><b>{{ routeInfo.date }}</b></div>
+                            <div> <a-progress type="dashboard" :percent=routeInfo.progress :width="90" :strokeWidth="10" /></div>
                         </div>
                         <div class="divPoints">
                             <div class="divPoint">
                                 <a-descriptions-item>
-                                    71000 Mâcon, França
+                                    {{ routeInfo.origin }}
                                     <a-button type="primary" class="done">
                                         DONE
                                     </a-button>
@@ -27,7 +26,7 @@
                             </div>
                             <div class="divPoint">
                                 <a-descriptions-item>
-                                08100 Mollet del Vallès
+                                {{ routeInfo.destination }}
                                 <a-button type="primary" class="done">
                                     DONE
                                 </a-button>
@@ -41,7 +40,7 @@
                     </div>
                 </a-card>
                 <a-card :bordered="false" class="card-billing-info rightText">
-                    <div class="totalKm">Total: 1001 km </div>
+                    <div class="totalKm" v-if=routeInfo.totalKm>Total: 1001 km </div>
                 </a-card>
             </a-col>
         </a-row>
@@ -51,6 +50,9 @@
 <script>
 
 export default ({
+    props: [
+		"routeInfo"
+	],
     data() {
         return {
         }
