@@ -6,9 +6,12 @@
 			<a-col :span="24" :md="12">
 
 				<!-- Footer Copyright Notice -->
+				<router-link to="/copyright">
 				<p class="copyright">
 					© 2023, OnBoard
 				</p>
+				</router-link>
+
 				<!-- / Footer Copyright Notice -->
 
 			</a-col>
@@ -16,10 +19,9 @@
 
 				<!-- Footer Navigation Menu -->
 				<a-menu mode="horizontal">
-					<a-menu-item>Creative Tim</a-menu-item>
-					<a-menu-item>About Us</a-menu-item>
+					<!-- <a-menu-item>About Us</a-menu-item>
 					<a-menu-item>Blog</a-menu-item>
-					<a-menu-item>License</a-menu-item>
+					<a-menu-item>License</a-menu-item> -->
 				</a-menu>
 				<!-- / Footer Navigation Menu -->
 
