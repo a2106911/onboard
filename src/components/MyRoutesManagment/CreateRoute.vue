@@ -19,29 +19,22 @@
                             </a-form-item>
                             <!-- Drivers how can drive the truck -->
                             <a-form-item class="container-login-item" label="Driver" :colon="false">
-                                <a-select default-value="" @change="handleChange"
+                                <a-select default-value="" @change="handleSelectedDriverChange"
                                     v-model:value="this.route.driverId" class="selectInput">
                                     <a-select-option v-for="ad in linkedDrivers" v-bind:key="ad.driverId"
-                                        :value="ad.driverId">
+                                        :value="ad.driverId"
+                                        >
                                         {{ ad.name }} {{ ad.surnames }}
                                     </a-select-option>
                                 </a-select>
                             </a-form-item>
 
+                            <!-- Default vehicle plate -->
+                            <a-form-item class="container-login-item" label="Vehicle plate" :colon="false">
+                                <a-input v-model:value="this.selectedDriver.defaultVehiclePlate"  class="selectInput" disabled></a-input>
+                            </a-form-item>
 
-                            <!-- <div class="div-autocomplete">
-                                <div class="divAutocomplete">
-                                    <GMapAutocomplete @place_changed="setPlaceOrigin" class="autocomplete divClass inputAutocomplete"
-                                        v-model="this.route.originData">
-                                    </GMapAutocomplete>
-                                </div>
-                                <div class="divAutocomplete">
-                                    <GMapAutocomplete @place_changed="setPlaceDestiantion" class="autocomplete divClass inputAutocomplete"
-                                        v-model="this.route.destinationData">
-                                    </GMapAutocomplete>
-                                </div>
-                            </div> -->
-
+                            <!-- Route points -->
                             <div class="div-autocomplete">
                                 <h5>Route points</h5>
                                 <span v-if="routePoints.length <= 0" style="margin-bottom:15px;">Click on the "+" below to start adding route points.</span>
@@ -53,10 +46,15 @@
                                 </GMapAutocomplete>
                                 <div style="display: flex; gap:20px;">
                                     <a-button @click="removeRoutePoint" :disabled="!routePoints.length >= 1">➖</a-button>
-                                    <a-button @click="addRoutePoint">➕</a-button>
+                                    <a-button @click="addRoutePointField">➕</a-button>
                                 </div>
 
                             </div>
+
+                            <!-- Total km -->
+                            <a-form-item class="container-login-item" label="Total km" :colon="false">
+                                <a-input v-model:value="this.route.totalKm"  class="selectInput"></a-input>
+                            </a-form-item>
 
 
                         </div>
@@ -91,10 +89,10 @@ export default {
             route: {
                 driverId: null,
                 managerId: null,
-                totalKm: "",
+                totalKm: 0,
                 currentMapUrl: "",
                 originalMapUrl: "",
-                progress: "",
+                progress: "0",
                 vehicle: "",
                 date: "",
                 origin: "",
@@ -103,7 +101,13 @@ export default {
                 destinationData:""
             },
             linkedDrivers: [],
-            routePoints: []
+            routePoints: [],
+            selectedDriver:{
+                driverId:null,
+                managerId:null,
+                defaultVehiclePlate:""
+            },
+            finalDestination:""
         };
     },
     methods: {
@@ -116,7 +120,7 @@ export default {
         removeRoutePoint() {
             this.routePoints.pop();
         },
-        addRoutePoint() {
+        addRoutePointField() {
             this.routePoints.push({
                 address:"",
                 sortingPosition:null,
@@ -140,6 +144,10 @@ export default {
         },
         discardChanges() {
             router.push('my-routes-manager');
+        },
+        handleSelectedDriverChange () {
+            this.selectedDriver = this.linkedDrivers.filter(driver => driver.driverId == this.route.driverId)[0];
+            // console.log("vehiclePLate",this.selectedDriver.defaultVehiclePlate)
         },
         getManagerInfo() {
             axios({
@@ -165,7 +173,7 @@ export default {
                         this.notification("warning", "Warning", "The driver specific information hasn't been found.");
                     }
                 }
-                // console.log("this.driverInfo",this.driverInfo)
+                console.log("this.linkedDrivers",this.linkedDrivers)
             })
         },
         getCurrentUser() {
@@ -189,6 +197,7 @@ export default {
             })
         },
         createRoute() {
+            // console.log("def veh pl", this.selectedDriver.defaultVehiclePlate);
             axios({
                 method:"PUT",
                 // url:"http://onboard.daw.institutmontilivi.cat/api/create-route",
@@ -201,13 +210,14 @@ export default {
                     "currentMapUrl":this.route.currentMapUrl,
                     "originalMapUrl":this.route.originalMapUrl,
                     "progress":this.route.progress,
-                    "vehiclePlate":this.route.vehiclePlate,
+                    "vehiclePlate":this.selectedDriver.defaultVehiclePlate,
                     "date":this.route.date.toISOString().replace('-', '/').split('T')[0].replace('-', '/'),
                     "origin":this.routePoints[0].address,
-                    "destination":this.routePoints.slice(-1)[0].address, //this gets the last element of the routePoints array
+                    "destination":this.finalDestination, //this gets the last element of the routePoints array if it's not null, and "" if it is null.
                 }
             }).then((response)=> {
                 if (response.data !== null) {
+                    console.log(response)
                     if (response.data == true) {
                         this.notification("success", "Success!", `The route has been created successfully.`);
                         this.discardChanges();
@@ -222,23 +232,26 @@ export default {
         },
         handleSaveChanges(e) {
             e.preventDefault();
-            // console.log(this.routePoints.slice(-1)[0].address)
-            console.log("route",this.route)
-            // Check if the values are not null
-            this.route.origin = this.routePoints[0].address;
-            this.route.destination = this.routePoints.slice(-1)[0].address;
-            if (this.route.date == null || this.route.driverId == null || this.route.origin == null || this.route.destination == null) {
-            //     console.log(this.route);
-                this.notification("error", "Missing parameters", "");
+            //Last route point. Optional
+            if (this.routePoints.slice(-1)[0] !== undefined) {
+                this.finalDestination = this.routePoints.slice(-1)[0].address;
             }
-            else {
-            //     // this.route.date.toISOString().replace('-', '/').split('T')[0].replace('-', '/')
-            //     // console.log(this.user)
-            //     // this.route.managerId = this.user.userId
-            //     // console.log(this.route)
-            //     // Put the date in correct format
 
-                this.createRoute();
+            //First route point. Obligatory
+            if (this.routePoints[0] === undefined) { //if there aren't any routePoints defined, we won't allow the route to be created.
+                this.notification("error", "Missing parameters", "You must have at least one address point.");
+            }
+            else {   
+                //Rest of the obligatory parameters.
+                if (this.route.date == null || this.route.driverId == null || this.route.origin == null || this.route.destination == null) {
+                    this.notification("error", "Missing parameters", "");
+                }
+                else {
+                    //If the vehicle plate isn't set, we'll set it to an empty string.
+                    if (this.selectedDriver.defaultVehiclePlate == null) this.selectedDriver.defaultVehiclePlate = "";
+
+                    this.createRoute();
+                }
             }
         }
     },
@@ -315,7 +328,8 @@ export default {
 }
 
 .div-autocomplete {
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom:10px;
     clear: both;
     left: 50%;
     display: flex;

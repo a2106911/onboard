@@ -82,8 +82,8 @@ export default {
     // Handles input validation after submission.
     handleSubmit(e) {
       e.preventDefault();
-      console.log(this.passwordInput)
-      console.log(MD5(this.passwordInput).toString())
+      // console.log(this.passwordInput)
+      // console.log(MD5(this.passwordInput).toString())
       axios({
         method:"PUT",
         // url:"http://onboard.daw.institutmontilivi.cat/api/login",
