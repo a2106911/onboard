@@ -57,7 +57,7 @@
 
                         </div>
                         <div class="col-accept-edit-delete">
-                            <a-button type="danger" :size="size" class="buttonDiscardSave" @click="deleteRoute()">
+                            <a-button type="danger" :size="size" class="buttonDiscardSave" @click="handleDeleteRoute()">
                                 Delete
                             </a-button>
                             <a-button type="primary" danger ghost style="color:grey; background-color: rgb(255 176 0); border:0;" :size="size" class="buttonDiscardSave" @click="handleDiscardChanges()">
@@ -150,6 +150,9 @@ export default {
         },
         handleSelectedDriverChange () {
             this.selectedDriver = this.linkedDrivers.filter(driver => driver.driverId == this.route.driverId)[0];
+        },
+        handleDeleteRoute () {
+            this.deleteRoute();
         },
         getManagerInfo() {
             axios({
@@ -255,6 +258,32 @@ export default {
                 }
                 else 
                     this.notification("error", "Error...", `The route couldn't be updated.`);
+            })
+        },
+        deleteRoute() {
+            axios({
+                method:"PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/remove-route",
+                url:"http://localhost/api/remove-route",
+                // url:"192.1681.67:8080/api/remove-route",
+                data: {
+                    "accessToken":localStorage.getItem("accessToken"),
+                    "routeId":this.route.routeId
+                }
+            }).then((response)=> {
+                if (response.data !== null) {
+                    console.log(response)
+                    if (response.data == true) {
+                        this.notification("success", "Success!", `The route has been removed successfully.`);
+                        this.handleDiscardChanges();
+                        this.$emit("discardChanges");
+                    }
+                    else {
+                        this.notification("error", "Error...", `The route couldn't be removed.`);
+                    }
+                }
+                else 
+                    this.notification("error", "Error...", `The route couldn't be removed.`);
             })
         },
         handleSaveChanges() {
