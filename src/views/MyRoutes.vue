@@ -34,7 +34,7 @@
 		data() {
 			return {
 				selectedRoute: null,
-				myRoutes: [	],
+				myRoutes: [],
 				columns: [
 					{
 						title: 'route ID',

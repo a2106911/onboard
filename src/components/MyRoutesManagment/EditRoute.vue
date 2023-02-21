@@ -146,6 +146,7 @@ export default {
             })
         },
         handleDiscardChanges() {
+            this.routePoints = [];
             this.$emit("discardChanges");
         },
         handleSelectedDriverChange () {
@@ -213,8 +214,10 @@ export default {
                     "routeId":this.route.routeId
                 }
             }).then((response) => {
+                // console.log("get routes",response)
                 if (response.data !== null && response.data != "0" && response.data != false) {
                     this.routePoints = response.data;
+                    // console.log("route points after insert", this.routePoints)
                 }
                 else if (response.data == "0") {
                     this.notification("warning", "No route points", "No route points have been found for this route. The entry may be corrupted. If the problem persists, get in touch with your administrator.");
@@ -226,6 +229,7 @@ export default {
             })
         },
         updateRoute() {
+            console.log("before update", this.routePoints);
             axios({
                 method:"PUT",
                 url:"http://onboard.daw.institutmontilivi.cat/api/modify-route",
@@ -247,7 +251,7 @@ export default {
                 }
             }).then((response)=> {
                 if (response.data !== null) {
-                    console.log(response)
+                    // console.log(response.data)
                     if (response.data == true) {
                         this.notification("success", "Success!", `The route has been updated successfully.`);
                         this.handleDiscardChanges();
@@ -272,11 +276,11 @@ export default {
                 }
             }).then((response)=> {
                 if (response.data !== null) {
-                    console.log(response)
+                    // console.log(response)
                     if (response.data == true) {
                         this.notification("success", "Success!", `The route has been removed successfully.`);
+                        // this.$emit("discardChanges");
                         this.handleDiscardChanges();
-                        this.$emit("discardChanges");
                     }
                     else {
                         this.notification("error", "Error...", `The route couldn't be removed.`);
@@ -289,7 +293,7 @@ export default {
         handleSaveChanges() {
             // e.preventDefault();
             //Last route point. Optional
-            console.log(this.routePoints.slice(-1)[0].address)
+            // console.log(this.routePoints.slice(-1)[0].address)
             // console.log("rp",this.routePoints)
             if (this.routePoints.slice(-1)[0] !== undefined) {
                 console.log(2)

@@ -139,7 +139,9 @@ export default ({
 		},
 		handleDiscardChanges() {
 			// console.log("pulame")
+			console.log(1);
 			this.selectedRoute = null;
+			this.myRoutes = [];
 			this.getAllRoutes();
 		},
 		//this method is a workaround to get back to the MyRoutes list by setting the selectedRoute value to null.
@@ -152,6 +154,9 @@ export default ({
 				description:
 					"You don't have any routes.",
 			});
+		},
+		processUpdateValues() {
+			this.getAllRoutes();
 		},
 		// This method is triggered every time the window's size is changed.
 		// Its function is to hide or show items according to the screen inner width. If it's a phone view, fewer items will be shown.

@@ -139,16 +139,12 @@ export default ({
                 }
 
             }).then((response) => {
-                // if (response.data != null && response.data != "0")
-                // {
-                // }
                 if (response.data !== null) {
                     if (response.data == "0") {
                         this.noWarning();
                     }
                 }
                 this.$emit("updateValues");
-                console.log("fill del fill")
 
             })
         }
