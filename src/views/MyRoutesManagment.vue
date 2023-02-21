@@ -1,7 +1,6 @@
-<template><!-- <Table dataSource={myRoutes} /> -->
+<template>
 	<ManagmentListRoutes v-if="selectedRoute === null" :data="myRoutes" :columns="columns"
 		@selectedRoute="getSelectedRoute"></ManagmentListRoutes>
-	<!-- :selectedRoute="selectedRoute" -->
 
 	<span v-else>
 		<a-button type="default" :size="small" shape="square" @click="back">

@@ -257,11 +257,11 @@ export default {
                         this.handleDiscardChanges();
                     }
                     else {
-                        this.notification("error", "Error...", `The route couldn't be updated.`);
+                        this.notification("error", "Error 4000", `The route couldn't be updated.`);
                     }
                 }
                 else 
-                    this.notification("error", "Error...", `The route couldn't be updated.`);
+                    this.notification("error", "Error 4001", `The route couldn't be updated.`);
             })
         },
         deleteRoute() {
