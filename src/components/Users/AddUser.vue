@@ -78,7 +78,7 @@
                     </a-form-item>
                     <!-- Default vehicle plate -->
                     <a-form-item class="container-login-item" label="Default vehicle plate" :colon="false">
-                        <input class="ant-input" type="text" :value="user.driverInfo.defaultVehiclePlate">
+                        <input class="ant-input" type="text" v-model="this.user.driverInfo.defaultVehiclePlate">
                     </a-form-item>
                 </div>
                 <!-- manager -->

@@ -104,33 +104,31 @@ export default ({
         },
         done(pointId, sortingPosition) {
 
-            this.routePoints[sortingPosition-1].isCompleted = 'false'
+            this.routePoints[sortingPosition].isCompleted = 'false'
 
             // Decrease progress and update
             this.valueToIncrease = parseInt(100/this.routePoints.length)
             this.replicaOfRoute.progress = this.replicaOfRoute.progress - this.valueToIncrease;
-            if(this.replicaOfRoute.progress == 1)
-            {
+            if(this.replicaOfRoute.progress == 1) {
                 this.replicaOfRoute.progress = 0
             }
-            this.updateProgressPoint(pointId,this.routePoints[sortingPosition-1].isCompleted = 'false')
+            this.updateProgressPoint(pointId,this.routePoints[sortingPosition].isCompleted = 'false')
         },
         notdone(pointId, sortingPosition) {
-            this.routePoints[sortingPosition-1].isCompleted = 'true'
+            this.routePoints[sortingPosition].isCompleted = 'true'
             // Increase progress and update
             this.valueToIncrease = parseInt(100/this.routePoints.length)
             this.replicaOfRoute.progress = this.replicaOfRoute.progress + this.valueToIncrease;
-            if(this.replicaOfRoute.progress == 99)
-            {
+            if(this.replicaOfRoute.progress == 99) {
                 this.replicaOfRoute.progress = 100
             }
-            this.updateProgressPoint(pointId,this.routePoints[sortingPosition-1].isCompleted = 'true')
+            this.updateProgressPoint(pointId,this.routePoints[sortingPosition].isCompleted = 'true')
 
         },
         updateProgressPoint(pointId, isCompleted){
             axios({
                 method: "PUT",
-                url:"http://onboard.daw.institutmontilivi.cat/api/get-route-points",
+                url:"http://onboard.daw.institutmontilivi.cat/api/route-status-update",
                 // url: "http://localhost/api/route-status-update",
                 data: {
                     "accessToken": localStorage.getItem("accessToken"),

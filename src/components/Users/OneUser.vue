@@ -81,7 +81,7 @@
                     </a-form-item>
                     <!-- Default vehicle plate -->
                     <a-form-item class="container-login-item" label="Default vehicle plate" :colon="false">
-                        <input class="ant-input" type="text" :value="driverInfo.defaultVehiclePlate">
+                        <input class="ant-input" type="text" v-model="this.driverInfo.defaultVehiclePlate">
                     </a-form-item>
                 </div>
                 <!-- manager -->
@@ -314,20 +314,49 @@ export default ({
                     "linkedDrivers":this.linkedDriversInput
                 }
             }).then((response)=> {
+                console.log("update",response.data)
                 if (response.data !== null) {
-                    if (response.data != "0" && response.data != false) {
-                        // console.log("modify-user response",response);
-                        // this.availableManagers = response.data;
-                        if(response.data.driverModificationStatus == "0" && response.data.adminModificationStatus == "0") 
-                            this.notification("success", "No changes", "The data that has been sent doesn't differ from the one we already had."); 
-                        if (response.data.userModificationStatus == true) 
-                            this.notification("success", "Success!", "All your modifications have been applied.");
+                    console.log("check driverModificationStatus", response.data.driverModificationStatus == false)
+                    console.log("check managerModificationStatus", response.data.managerModificationStatus == false)
+                    console.log("check userModificationStatus", response.data.userModificationStatus == false)
 
-                        this.$emit("updateValues");
+                    if (response.data.driverModificationStatus && response.data.managerModificationStatus && response.data.userModificationStatus) {
+                        this.notification("success", "Changes applied successfully")
                     }
+                    else {
+                        if (response.data.driverModificationStatus == "0") {
+                        this.notification("warning", "No changes.", "The data you've sent is the same we already had.")
+                        }                    
+                        else if (response.data.driverModificationStatus == false) {
+                            this.notification("error", "Error", "The driverModificationStatus modification operation failed.")
+                        }
+                        else if (response.data.driverModificationStatus == true) {
+                            this.notification("success", "Changes applied successfully")
+                        }
+                        if (response.data.managerModificationStatus == "0") {
+                            this.notification("warning", "No changes.", "The data you've sent is the same we already had.")
+                        }
+                        else if (response.data.managerModificationStatus == false) {
+                            this.notification("error", "Error", "The managerModificationStatus modification operation failed.")
+                        }
+                        else if (response.data.managerModificationStatus == true) {
+                            this.notification("success", "Changes applied successfully")
+                        }
+                        if (response.data.userModificationStatus == "0") {
+                            this.notification("warning", "No changes.", "The data you've sent is the same we already had.")
+                        }
+                        else if (response.data.userModificationStatus == false) {
+                            this.notification("error", "Error", "The userModificationStatus modification operation failed.")
+                        }
+                        else if (response.data.userModificationStatus == true) {
+                            this.notification("success", "Changes applied successfully")
+                        }
+                    }
+                        this.$emit("updateValues");
                 }
-                else 
-                    this.updateFailed("error", "Error.", "Your changes couldn't be applied.");
+                else {
+                    this.notification("error", "Error.", "Your changes couldn't be applied.");
+                }
             })
         }
     },
