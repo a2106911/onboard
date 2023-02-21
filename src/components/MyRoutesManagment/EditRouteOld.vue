@@ -117,8 +117,8 @@ export default {
         // Get Manager Id to have vehiclePlates and drivers associated to manager
 		axios({
 			method: "PUT",
-			// url:"http://onboard.daw.institutmontilivi.cat/api/get-routes",
-			url: "http://localhost/api/getUserInformation",
+			url:"http://onboard.daw.institutmontilivi.cat/api/get-routes",
+			// url: "http://localhost/api/getUserInformation",
 			data: {
 				"accessToken": localStorage.getItem("accessToken")
 			}

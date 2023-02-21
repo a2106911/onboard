@@ -192,8 +192,8 @@ export default ({
         getAvailableManagers() {
             axios({
                 method:"PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-available-managers",
-                url:"http://localhost/api/get-available-managers",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-available-managers",
+                // url:"http://localhost/api/get-available-managers",
                 // url:"192.1681.67:8080/api/get-available-managers",
                 data: {
                     "accessToken":localStorage.getItem("accessToken")
@@ -214,8 +214,8 @@ export default ({
         getDriverInfo() {
             axios({
                 method:"PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-driver",
-                url:"http://localhost/api/get-driver",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-driver",
+                // url:"http://localhost/api/get-driver",
                 // url:"192.1681.67:8080/api/get-driver",
                 data: {
                     "accessToken":localStorage.getItem("accessToken"),
@@ -245,8 +245,8 @@ export default ({
         getManagerInfo() {
             axios({
                 method:"PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-linked-drivers",
-                url:"http://localhost/api/get-linked-drivers",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-linked-drivers",
+                // url:"http://localhost/api/get-linked-drivers",
                 // url:"192.1681.67:8080/api/get-linked-drivers",
                 data: {
                     "accessToken":localStorage.getItem("accessToken"),
@@ -273,8 +273,8 @@ export default ({
         getAvailableDrivers() {
             axios({
                 method:"PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-available-drivers",
-                url:"http://localhost/api/get-available-drivers",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-available-drivers",
+                // url:"http://localhost/api/get-available-drivers",
                 // url:"192.1681.67:8080/api/get-available-drivers",
                 data: {
                     "accessToken":localStorage.getItem("accessToken")
@@ -294,8 +294,8 @@ export default ({
         updateUser() {
             axios({
                 method:"PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/modify-user",
-                url:"http://localhost/api/modify-user",
+                url:"http://onboard.daw.institutmontilivi.cat/api/modify-user",
+                // url:"http://localhost/api/modify-user",
                 // url:"192.1681.67:8080/api/modify-user",
                 data: {
                     "accessToken":localStorage.getItem("accessToken"),

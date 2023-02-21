@@ -88,8 +88,8 @@ export default ({
 	created() {
 		axios({
 			method:"PUT",
-			url:"http://localhost/api/get-random-token",
-			//url:"http://onboard.daw.institutmontilivi.cat/api/get-random-token",
+			// url:"http://localhost/api/get-random-token",
+			url:"http://onboard.daw.institutmontilivi.cat/api/get-random-token",
 			data: {
 				"password-get-token":"a827167be35df9c9dd25ab637741e769"
 			}

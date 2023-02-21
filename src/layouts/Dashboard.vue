@@ -127,8 +127,8 @@ export default {
     getCurrentUser () {
       axios({
         method:"PUT",
-        // url:"http://onboard.daw.institutmontilivi.cat/api/get-current-user",
-        url:"http://localhost/api/get-current-user",
+        url:"http://onboard.daw.institutmontilivi.cat/api/get-current-user",
+        // url:"http://localhost/api/get-current-user",
         // url:"192.1681.67:8080/api/get-current-user",
         data: {
           "accessToken":localStorage.getItem("accessToken"),

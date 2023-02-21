@@ -74,8 +74,8 @@ export default ({
         getRoutePoints() {
             axios({
                 method: "PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-route-points",
-                url: "http://localhost/api/get-route-points",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-route-points",
+                // url: "http://localhost/api/get-route-points",
                 data: {
                     "accessToken": localStorage.getItem("accessToken"),
                     "routeId": this.routeInfo.routeId
@@ -130,8 +130,8 @@ export default ({
         updateProgressPoint(pointId, isCompleted){
             axios({
                 method: "PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-route-points",
-                url: "http://localhost/api/route-status-update",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-route-points",
+                // url: "http://localhost/api/route-status-update",
                 data: {
                     "accessToken": localStorage.getItem("accessToken"),
                     "routeId": this.routeInfo.routeId,

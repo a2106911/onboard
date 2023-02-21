@@ -86,8 +86,8 @@ export default {
       // console.log(MD5(this.passwordInput).toString())
       axios({
         method:"PUT",
-        // url:"http://onboard.daw.institutmontilivi.cat/api/login",
-        url:"http://localhost/api/login",
+        url:"http://onboard.daw.institutmontilivi.cat/api/login",
+        // url:"http://localhost/api/login",
         // url:"192.1681.67:8080/api/login",
         data: {
           "temporaryToken":localStorage.getItem("temporaryToken"),

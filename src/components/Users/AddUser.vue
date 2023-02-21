@@ -178,8 +178,8 @@ export default ({
         getAvailableManagers() {
             axios({
                 method:"PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-available-managers",
-                url:"http://localhost/api/get-available-managers",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-available-managers",
+                // url:"http://localhost/api/get-available-managers",
                 // url:"192.1681.67:8080/api/get-available-managers",
                 data: {
                     "accessToken":localStorage.getItem("accessToken")
@@ -198,8 +198,8 @@ export default ({
         getAvailableDrivers() {
             axios({
                 method:"PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-available-drivers",
-                url:"http://localhost/api/get-available-drivers",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-available-drivers",
+                // url:"http://localhost/api/get-available-drivers",
                 // url:"192.1681.67:8080/api/get-available-drivers",
                 data: {
                     "accessToken":localStorage.getItem("accessToken")
@@ -219,8 +219,8 @@ export default ({
         addUser() {
             axios({
                 method:"PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/create-user",
-                url:"http://localhost/api/create-user",
+                url:"http://onboard.daw.institutmontilivi.cat/api/create-user",
+                // url:"http://localhost/api/create-user",
                 // url:"192.1681.67:8080/api/create-user",
                 data: {
                     "accessToken":localStorage.getItem("accessToken"),

@@ -205,8 +205,8 @@
 			getAllUsers() {
 				axios({
 					method:"PUT",
-					// url:"http://onboard.daw.institutmontilivi.cat/api/get-all-users",
-					url:"http://localhost/api/get-all-users",
+					url:"http://onboard.daw.institutmontilivi.cat/api/get-all-users",
+					// url:"http://localhost/api/get-all-users",
 					// url:"192.1681.67:8080/api/get-routes",
 					data: {
 						"accessToken":localStorage.getItem("accessToken")

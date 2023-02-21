@@ -157,8 +157,8 @@ export default {
         getManagerInfo() {
             axios({
                 method: "PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-linked-drivers",
-                url: "http://localhost/api/get-linked-drivers",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-linked-drivers",
+                // url: "http://localhost/api/get-linked-drivers",
                 // url:"192.1681.67:8080/api/get-linked-drivers",
                 data: {
                     "accessToken": localStorage.getItem("accessToken")
@@ -184,8 +184,8 @@ export default {
             
             axios({
                 method: "PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-current-user",
-                url: "http://localhost/api/get-current-user",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-current-user",
+                // url: "http://localhost/api/get-current-user",
                 data: {
                     "accessToken": localStorage.getItem("accessToken")
                 }
@@ -206,8 +206,8 @@ export default {
             
             axios({
                 method: "PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-route-points",
-                url: "http://localhost/api/get-route-points",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-route-points",
+                // url: "http://localhost/api/get-route-points",
                 data: {
                     "accessToken": localStorage.getItem("accessToken"),
                     "routeId":this.route.routeId
@@ -228,8 +228,8 @@ export default {
         updateRoute() {
             axios({
                 method:"PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/modify-route",
-                url:"http://localhost/api/modify-route",
+                url:"http://onboard.daw.institutmontilivi.cat/api/modify-route",
+                // url:"http://localhost/api/modify-route",
                 // url:"192.1681.67:8080/api/modify-route",
                 data: {
                     "accessToken":localStorage.getItem("accessToken"),
@@ -263,8 +263,8 @@ export default {
         deleteRoute() {
             axios({
                 method:"PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/remove-route",
-                url:"http://localhost/api/remove-route",
+                url:"http://onboard.daw.institutmontilivi.cat/api/remove-route",
+                // url:"http://localhost/api/remove-route",
                 // url:"192.1681.67:8080/api/remove-route",
                 data: {
                     "accessToken":localStorage.getItem("accessToken"),

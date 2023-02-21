@@ -144,8 +144,8 @@ export default {
         getManagerInfo() {
             axios({
                 method: "PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-linked-drivers",
-                url: "http://localhost/api/get-linked-drivers",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-linked-drivers",
+                // url: "http://localhost/api/get-linked-drivers",
                 // url:"192.1681.67:8080/api/get-linked-drivers",
                 data: {
                     "accessToken": localStorage.getItem("accessToken")
@@ -171,8 +171,8 @@ export default {
             
             axios({
                 method: "PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/get-current-user",
-                url: "http://localhost/api/get-current-user",
+                url:"http://onboard.daw.institutmontilivi.cat/api/get-current-user",
+                // url: "http://localhost/api/get-current-user",
                 data: {
                     "accessToken": localStorage.getItem("accessToken")
                 }
@@ -191,8 +191,8 @@ export default {
         createRoute() {
             axios({
                 method:"PUT",
-                // url:"http://onboard.daw.institutmontilivi.cat/api/create-route",
-                url:"http://localhost/api/create-route",
+                url:"http://onboard.daw.institutmontilivi.cat/api/create-route",
+                // url:"http://localhost/api/create-route",
                 // url:"192.1681.67:8080/api/create-route",
                 data: {
                     "accessToken":localStorage.getItem("accessToken"),
