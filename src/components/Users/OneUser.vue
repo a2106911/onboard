@@ -5,7 +5,7 @@
         <div  class="oneUserContainer">
         <!-- GENERAL USER INFO -->
         <a-card :bordered="true" class="infoAntCard">
-            <h5>GENERAL USER DETAILS: user {{ user.userId }}</h5>
+            <h5>General User Details - user {{ user.userId }}</h5>
             <!-- national ID -->
             <a-form-item class="container-login-item" label="DNI" :colon="false">
                 <input class="ant-input" type="text" v-model="this.replicaOfUser.nationalId">
@@ -45,7 +45,7 @@
         </a-card>
         <!-- SPECIFIC USER INFO -->
         <a-card :bordered="true" class="infoAntCard">
-            <h5>ROLE SPECIFIC DETAILS</h5>
+            <h5>Role Specific Details</h5>
             <div style="height:80%">
                     <!-- role -->
                 <a-form-item class="container-login-item" label="Role" :colon="false">
@@ -224,13 +224,16 @@ export default ({
             }).then((response)=> {
                 if (response.data !== null) {
                     if (response.data != "0" && response.data != false) {
-                        // console.log("get-driver response",response);
+                        console.log("get-driver response",response);
                         //In order to prevent js crashes, we need to make sure no entries in the response have null as a value.
                         if (response.data.defaultVehiclePlate === null) response.data.defaultVehiclePlate = "";
                         if (response.data.managerId === null) response.data.managerId = "";
                         if (response.data.managerName === null) response.data.managerName = "";
                         if (response.data.managerSurnames === null) response.data.managerSurnames = "";
                         this.driverInfo = response.data;
+
+                        console.log(this.linkedManagerInput);
+                        this.linkedManagerInput = response.data.managerId;
                     }
                     else if (response.data == "0") {
                         this.notification("warning", "Warning", "The driver specific information hasn't been found.");

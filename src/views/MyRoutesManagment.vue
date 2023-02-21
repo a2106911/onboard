@@ -9,7 +9,7 @@
 		</a-button>
 		<ManagmentOneRoute 
 			:route="selectedRoute" 
-			@discardChanges="discardChanges">
+			@discardChanges="handleDiscardChanges">
 		</ManagmentOneRoute>
 	</span>
 </template>
@@ -137,7 +137,7 @@ export default ({
 			this.selectedRoute = route;
 			// console.log(this.selectedRoute);
 		},
-		discardChanges() {
+		handleDiscardChanges() {
 			// console.log("pulame")
 			this.selectedRoute = null;
 			this.getAllRoutes();

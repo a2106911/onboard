@@ -54,7 +54,7 @@ export default ({
 				}
 				else if (result.role == "manager")
 				{
-					this.$router.push("/my-routes-manager");
+					this.$router.push("/routes-management");
 				}
 				else if (result.role == "admin")
 				{

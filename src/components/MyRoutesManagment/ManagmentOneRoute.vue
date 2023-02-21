@@ -6,9 +6,9 @@
 
             <!-- Billing Information Card -->
             <EditRoute
-            :route="route"
-            @discardChanges="discardChanges"
-            >
+                :route="route"
+                @discardChanges="discardChanges"
+                >
             </EditRoute>
             <!-- / Billing Information Card -->
         </a-col>

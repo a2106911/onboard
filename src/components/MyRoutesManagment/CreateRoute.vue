@@ -1,7 +1,7 @@
 <template>
     <a-card :bordered="false" class="header-solid h-full" :bodyStyle="{ paddingTop: 0, paddingBottom: '16px' }">
         <template #title>
-            <h6 class="font-semibold m-0">Route details</h6>
+            <h5>Create Route Form</h5>
         </template>
         <a-row :gutter="[24, 24]">
             <a-col :span="24">
@@ -123,19 +123,12 @@ export default {
         addRoutePointField() {
             this.routePoints.push({
                 address:"",
-                sortingPosition:null,
-                coordinates:""
+                // sortingPosition:this.routePoints.length,
+                sortingPosition:0,
+                coordinates:"",
+                isCompleted:"false"
             })
         },
-        // setPlaceOrigin(e) {
-        //     this.route.origin = e.formatted_address;
-        //     this.route.originData = e;
-        //     console.log(e)
-        // },
-        // setPlaceDestiantion(e) {
-        //     this.route.destination = e.formatted_address;
-        //     this.route.destinationData = e;
-        // },
         notification(type, message, description = "") {
             this.$notification[type]({
                 message: message,
@@ -143,11 +136,10 @@ export default {
             })
         },
         discardChanges() {
-            router.push('my-routes-manager');
+            router.push('routes-management');
         },
         handleSelectedDriverChange () {
             this.selectedDriver = this.linkedDrivers.filter(driver => driver.driverId == this.route.driverId)[0];
-            // console.log("vehiclePLate",this.selectedDriver.defaultVehiclePlate)
         },
         getManagerInfo() {
             axios({
@@ -166,7 +158,6 @@ export default {
                         //This way we'll be able to see what drivers are already linked to the user from the form.
                         for (let i in response.data) {
                             this.linkedDrivers.push(response.data[i])
-                            // this.linkedDrivers.push(response.data[i].driverId);
                         }
                     }
                     else if (response.data == "0") {
@@ -177,6 +168,7 @@ export default {
             })
         },
         getCurrentUser() {
+            
             axios({
                 method: "PUT",
                 // url:"http://onboard.daw.institutmontilivi.cat/api/get-current-user",
@@ -185,19 +177,18 @@ export default {
                     "accessToken": localStorage.getItem("accessToken")
                 }
             }).then((response) => {
-                if (response.data !== null) {
-                    if (response.data != "0" && response.data != false) {
-                        // console.log("get-current-user response", response);
-                        this.user = response.data;
-                    }
-                    else if (response.data == "0") {
-                        this.notification("error", "User not valid", "");
-                    }
+                if (response.data !== null && response.data != "0" && response.data != false) {
+                    this.user = response.data;
+                }
+                else if (response.data == "0") {
+                    this.notification("error", "User not valid", "");
+                }
+                else {
+                    this.notification("error", "Error", "The operation couldn't be processed.");
                 }
             })
         },
         createRoute() {
-            // console.log("def veh pl", this.selectedDriver.defaultVehiclePlate);
             axios({
                 method:"PUT",
                 // url:"http://onboard.daw.institutmontilivi.cat/api/create-route",
@@ -214,6 +205,7 @@ export default {
                     "date":this.route.date.toISOString().replace('-', '/').split('T')[0].replace('-', '/'),
                     "origin":this.routePoints[0].address,
                     "destination":this.finalDestination, //this gets the last element of the routePoints array if it's not null, and "" if it is null.
+                    "routePoints":this.routePoints
                 }
             }).then((response)=> {
                 if (response.data !== null) {

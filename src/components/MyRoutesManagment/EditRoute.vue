@@ -1,84 +1,76 @@
 <template>
-
-    <!-- Billing Information Card -->
+    <!-- <p>{{ JSON.stringify(route) }}</p> -->
     <a-card :bordered="false" class="header-solid h-full" :bodyStyle="{ paddingTop: 0, paddingBottom: '16px' }">
         <template #title>
-            <h6 class="font-semibold m-0">Route Information</h6> <!-- Here will be the progress -->
+            <h5>Edit Route Form - route {{ this.route.routeId }}</h5>
         </template>
         <a-row :gutter="[24, 24]">
             <a-col :span="24">
-                <a-card :bordered="false" class="card-billing-info">
-                    <div class="col-info">
-                        <div class="divDateProgress">
-                            <div><b>{{ route.date }}</b></div>
-                            <div> <a-progress type="dashboard" :percent="route.progress" :width="90" :strokeWidth="10" /></div>
-                        </div>
-                        <div class="divClass">
-                            Date:
-                            <!-- <a-date-picker :default-value="moment(route.date, dateFormat)" :format="dateFormat" /> -->
-                            <a-date-picker v-model="date" :format="dateFormat" />
-                            <br />
-                        </div>
-                        <!-- <div class="divClass">
-                            Truck:
-                            <a-select :default-value=route.vehiclePlate style="width: 120px" @change="handleChange">
-                                <a-select-option :value=route.vehiclePlate>
-                                    {{ route.vehiclePlate }}
-                                </a-select-option>
-                            </a-select>
-                        </div> -->
-                        <div class="divClass">
-                            Drivers:
-                            <a-select :default-value=route.driverName style="width: 120px" @change="handleChange">
-                                <a-select-option :value=route.driverName>
-                                    {{ route.driverName }}
-                                </a-select-option>
-                            </a-select>
-                        </div>
-                        <div class="div-autocomplate">
-                            <div class="divAutocomplete">
-                                <GMapAutocomplete @place_changed="setPlace" class="autocomplate divClass" :placeholder="route.origin"></GMapAutocomplete>
-                                <!-- <a-button type="primary" icon="-" :size="size" class="buttonSumMinus" /> -->
+                <a-form @submit="handleSaveChanges">
+                    <a-card :bordered="false" class="card-billing-info">
+                        <div class="col-info">
+
+                            <!-- Date Route -->
+                            <a-form-item class="container-login-item" label="Date" :colon="false">
+                                <a-date-picker v-model:value="this.replicaOfRoute.date" format="YYYY-MM-DD" class="selectInput"/>
+                            </a-form-item>
+                            <!-- Drivers how can drive the truck -->
+                            <a-form-item class="container-login-item" label="Driver" :colon="false">
+                                <a-select default-value="" @change="handleSelectedDriverChange"
+                                    v-model:value="this.replicaOfRoute.driverId" class="selectInput">
+                                    <a-select-option v-for="ad in linkedDrivers" v-bind:key="ad.driverId"
+                                        :value="ad.driverId"
+                                        >
+                                        {{ ad.name }} {{ ad.surnames }}
+                                    </a-select-option>
+                                </a-select>
+                            </a-form-item>
+
+                            <!-- Default vehicle plate -->
+                            <a-form-item class="container-login-item" label="Vehicle plate" :colon="false">
+                                <a-input v-model:value="this.selectedDriver.defaultVehiclePlate"  class="selectInput" disabled></a-input>
+                            </a-form-item>
+
+                            <!-- Route points -->
+                            <div class="div-autocomplete">
+                                <h5>Route points</h5>
+                                <span v-if="routePoints.length <= 0" style="margin-bottom:15px;">Click on the "+" below to start adding route points.</span>
+                                <GMapAutocomplete 
+                                    v-for="(routePoint, i) in routePoints"
+                                    :key="i"
+                                    @place_changed="setPoint($event,i)"
+                                    :value="routePoint.address"
+                                    >
+                                </GMapAutocomplete>
+                                <div style="display: flex; gap:20px;">
+                                    <a-button @click="removeRoutePoint" :disabled="!routePoints.length >= 1">➖</a-button>
+                                    <a-button @click="addRoutePointField">➕</a-button>
+                                </div>
+
                             </div>
-                            <div class="divAutocomplete">
-                                <GMapAutocomplete @place_changed="setPlace" class="autocomplate divClass" :placeholder="route.destination"></GMapAutocomplete>
-                                <!-- <a-button type="primary" icon="-" :size="size" class="buttonSumMinus" /> -->
-                            </div>
-                            <!-- <a-button type="primary" icon="+" :size="size" class="buttonSumMinus" /> -->
+
+                            <!-- Total km -->
+                            <a-form-item class="container-login-item" label="Total km" :colon="false">
+                                <a-input v-model:value="this.replicaOfRoute.totalKm"  class="selectInput"></a-input>
+                            </a-form-item>
+
+
                         </div>
-                    </div>
-                    <div class="col-accept-edit-delete">
-                        <a-button type="link" size="small">
-                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path class="fill-danger" fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M9 2C8.62123 2 8.27497 2.214 8.10557 2.55279L7.38197 4H4C3.44772 4 3 4.44772 3 5C3 5.55228 3.44772 6 4 6L4 16C4 17.1046 4.89543 18 6 18H14C15.1046 18 16 17.1046 16 16V6C16.5523 6 17 5.55228 17 5C17 4.44772 16.5523 4 16 4H12.618L11.8944 2.55279C11.725 2.214 11.3788 2 11 2H9ZM7 8C7 7.44772 7.44772 7 8 7C8.55228 7 9 7.44772 9 8V14C9 14.5523 8.55228 15 8 15C7.44772 15 7 14.5523 7 14V8ZM12 7C11.4477 7 11 7.44772 11 8V14C11 14.5523 11.4477 15 12 15C12.5523 15 13 14.5523 13 14V8C13 7.44772 12.5523 7 12 7Z"
-                                    fill="#111827" />
-                            </svg>
-                            <span class="text-danger">DELETE</span>
-                        </a-button>
-                        <!-- <a-button type="link" size="small">
-                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path class="fill-muted"
-                                    d="M13.5858 3.58579C14.3668 2.80474 15.6332 2.80474 16.4142 3.58579C17.1953 4.36683 17.1953 5.63316 16.4142 6.41421L15.6213 7.20711L12.7929 4.37868L13.5858 3.58579Z"
-                                    fill="#111827" />
-                                <path class="fill-muted"
-                                    d="M11.3787 5.79289L3 14.1716V17H5.82842L14.2071 8.62132L11.3787 5.79289Z"
-                                    fill="#111827" />
-                            </svg>
-                            <span class="text-dark">EDIT</span>
-                        </a-button> -->
-                        <a-button type="danger" :size="size" class="buttonDiscardSave" @click="handleDiscardChanges()">
-                            Discard
-                        </a-button>
-                        <a-button type="primary" :size="size" class="buttonDiscardSave">
-                            Save
-                        </a-button>
-                    </div>
-                </a-card>
+                        <div class="col-accept-edit-delete">
+                            <a-button type="danger" :size="size" class="buttonDiscardSave" @click="deleteRoute()">
+                                Delete
+                            </a-button>
+                            <a-button type="primary" danger ghost style="color:grey; background-color: rgb(255 176 0); border:0;" :size="size" class="buttonDiscardSave" @click="handleDiscardChanges()">
+                                Discard
+                            </a-button>
+                            <a-button type="primary" :size="size" class="buttonDiscardSave" @click="handleSaveChanges()">
+                                Save
+                            </a-button>
+                        </div>
+                    </a-card>
+                </a-form>
                 <a-card :bordered="false" class="card-billing-info rightText">
-                    <div class="totalKm">Total: {{route.totalKm}} km </div>
+                    <div class="totalKm" v-if="totalKm">Total: {{ totalKm }} km </div>
                 </a-card>
             </a-col>
         </a-row>
@@ -86,65 +78,250 @@
 </template>
 
 <script>
-import moment from 'moment';
-import axios from "axios"
+import axios from 'axios';
+import { Loader } from '@googlemaps/js-api-loader';
+import dayjs from 'dayjs';
+import { ref } from 'vue';
 
 export default {
-
     name: 'App',
+    components: [
+        dayjs
+    ],
     props: {
-        route: {},
-        user: Object
+        route: {}
     },
     data() {
         return {
-            dateFormat: 'YYYY/MM/DD',
-            monthFormat: 'YYYY/MM',
-            dateFormatList: ['DD/MM/YYYY', 'DD/MM/YY'],
-            userData: {}
+            user: [],
+            replicaOfRoute: {
+                // routeId:this.route.routeId,
+                driverId:this.route.driverId,
+                managerId:this.route.managerId,
+                totalKm:this.route.totalKm,
+                currentMapUrl:this.route.currentMapUrl,
+                originalMapUrl:this.route.originalMapUrl,
+                progress:this.route.progress,
+                vehicle:this.route.vehicle,
+                date:ref(dayjs(this.route.date, "YYYY-MM-DD")),
+                origin:this.route.origin,
+                originData:this.route.originData,
+                destination:this.route.destination,
+                destinationData:this.route.destinationData,
+            },
+            linkedDrivers: [],
+            routePoints: [],
+            selectedDriver:{
+                driverId:null,
+                managerId:null,
+                defaultVehiclePlate:""
+            },
+            finalDestination:""
         };
     },
     methods: {
-        moment,
-        setPlace(e) {
-            console.log(e)
+        setPoint(e,i) {
+            this.routePoints[i].address = e.formatted_address;
+            this.routePoints[i].coordinates = e.location;
+            this.routePoints[i].sortingPosition = i;
+            // console.log(e.geometry.location)
+        },
+        removeRoutePoint() {
+            this.routePoints.pop();
+        },
+        addRoutePointField() {
+            this.routePoints.push({
+                routeId:this.route.routeId,
+                address:"",
+                // sortingPosition:this.routePoints.length,
+                sortingPosition:0,
+                coordinates:"",
+                isCompleted:"false"
+            })
+        },
+        notification(type, message, description = "") {
+            this.$notification[type]({
+                message: message,
+                description: description
+            })
         },
         handleDiscardChanges() {
             this.$emit("discardChanges");
         },
+        handleSelectedDriverChange () {
+            this.selectedDriver = this.linkedDrivers.filter(driver => driver.driverId == this.route.driverId)[0];
+        },
+        getManagerInfo() {
+            axios({
+                method: "PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/get-linked-drivers",
+                url: "http://localhost/api/get-linked-drivers",
+                // url:"192.1681.67:8080/api/get-linked-drivers",
+                data: {
+                    "accessToken": localStorage.getItem("accessToken")
+                }
+            }).then((response) => {
+                if (response.data !== null) {
+                    if (response.data != "0" && response.data != false) {
+                        console.log("get-linked-drivers response", response);
+                        //Here we'll add any drivers that may already be linked to this manager to the select form data fields.
+                        //This way we'll be able to see what drivers are already linked to the user from the form.
+                        for (let i in response.data) {
+                            this.linkedDrivers.push(response.data[i])
+                        }
+                    }
+                    else if (response.data == "0") {
+                        this.notification("warning", "Warning", "The driver specific information hasn't been found.");
+                    }
+                }
+                console.log("this.linkedDrivers",this.linkedDrivers)
+            })
+        },
+        getCurrentUser() {
+            
+            axios({
+                method: "PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/get-current-user",
+                url: "http://localhost/api/get-current-user",
+                data: {
+                    "accessToken": localStorage.getItem("accessToken")
+                }
+            }).then((response) => {
+                if (response.data !== null && response.data != "0" && response.data != false) {
+                    this.user = response.data;
+                }
+                else if (response.data == "0") {
+                    this.notification("error", "User not valid", "");
+                    
+                }
+                else {
+                    this.notification("error", "Error", "The current user's data couldn't be retrieved.");
+                }
+            })
+        },
+        getRoutePoints() {
+            
+            axios({
+                method: "PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/get-route-points",
+                url: "http://localhost/api/get-route-points",
+                data: {
+                    "accessToken": localStorage.getItem("accessToken"),
+                    "routeId":this.route.routeId
+                }
+            }).then((response) => {
+                if (response.data !== null && response.data != "0" && response.data != false) {
+                    this.routePoints = response.data;
+                }
+                else if (response.data == "0") {
+                    this.notification("warning", "No route points", "No route points have been found for this route. The entry may be corrupted. If the problem persists, get in touch with your administrator.");
+                    
+                }
+                else {
+                    this.notification("error", "Error", "The route points of this route couldn't be retrieved.");
+                }
+            })
+        },
+        updateRoute() {
+            axios({
+                method:"PUT",
+                // url:"http://onboard.daw.institutmontilivi.cat/api/modify-route",
+                url:"http://localhost/api/modify-route",
+                // url:"192.1681.67:8080/api/modify-route",
+                data: {
+                    "accessToken":localStorage.getItem("accessToken"),
+                    "routeId":this.route.routeId,
+                    "driverId":this.replicaOfRoute.driverId,
+                    "totalKm":this.replicaOfRoute.totalKm,
+                    "currentMapUrl":this.replicaOfRoute.currentMapUrl,
+                    "originalMapUrl":this.replicaOfRoute.originalMapUrl,
+                    "progress":this.replicaOfRoute.progress,
+                    "vehiclePlate":this.selectedDriver.defaultVehiclePlate,
+                    "date":this.replicaOfRoute.date.toISOString().replace('-', '/').split('T')[0].replace('-', '/'),
+                    "origin":this.routePoints[0].address,
+                    "destination":this.finalDestination, //this gets the last element of the routePoints array if it's not null, and "" if it is null.
+                    "routePoints":this.routePoints
+                }
+            }).then((response)=> {
+                if (response.data !== null) {
+                    console.log(response)
+                    if (response.data == true) {
+                        this.notification("success", "Success!", `The route has been updated successfully.`);
+                        this.handleDiscardChanges();
+                    }
+                    else {
+                        this.notification("error", "Error...", `The route couldn't be updated.`);
+                    }
+                }
+                else 
+                    this.notification("error", "Error...", `The route couldn't be updated.`);
+            })
+        },
+        handleSaveChanges() {
+            // e.preventDefault();
+            //Last route point. Optional
+            console.log(this.routePoints.slice(-1)[0].address)
+            // console.log("rp",this.routePoints)
+            if (this.routePoints.slice(-1)[0] !== undefined) {
+                console.log(2)
+                this.finalDestination = this.routePoints.slice(-1)[0].address;
+            }
+            else this.finalDestination = "";
+
+            //First route point. Obligatory
+            if (this.routePoints[0] === undefined) { //if there aren't any routePoints defined, we won't allow the route to be created.
+            console.log(3)
+                this.notification("error", "Missing parameters", "You must have at least one address point.");
+            }
+            else {  
+                console.log(4) 
+                //Rest of the obligatory parameters.
+                if (this.replicaOfRoute.date == null || this.replicaOfRoute.driverId == null || this.replicaOfRoute.origin == null || this.finalDestination == null) {
+                    console.log(5)
+                    console.log(this.replicaOfRoute.date)
+                    console.log(this.replicaOfRoute.driverId)
+                    console.log(this.replicaOfRoute.origin)
+                    console.log(this.finalDestination)
+                    console.log(55)
+                    this.notification("error", "Missing parameters", "1");
+                }
+                else {
+                    console.log(6)
+                    //If the vehicle plate isn't set, we'll set it to an empty string.
+                    if (this.selectedDriver.defaultVehiclePlate == null) this.selectedDriver.defaultVehiclePlate = "";
+
+                    console.log(7)
+                    this.updateRoute();
+                }
+            }
+        }
     },
     created() {
-        // Get Manager Id to have vehiclePlates and drivers associated to manager
-		axios({
-			method: "PUT",
-			// url:"http://onboard.daw.institutmontilivi.cat/api/get-routes",
-			url: "http://localhost/api/getUserInformation",
-			data: {
-				"accessToken": localStorage.getItem("accessToken")
-			}
-		}).then((response) => {
-			if (response.data !== null) {
-				if (response.data != "0" && response.data != false) {
-					this.userData = response.data;
-                    console.log(this.userData);
-				}
-			}
-		})
+        this.getCurrentUser();
+        this.getManagerInfo();
+        this.getRoutePoints();
+        console.log("edit one route", this.route)
+        const loader = new Loader({
+            apiKey: 'AIzaSyD8SCbN9ajO1phNjE3rAMkwcY-psqVEVIM',
+            version: 'weekly',
+        });
+        this.loader = loader;
     },
-    computed: {
-        userProps() {
-            return Object.assign({}, this.user, this.userData);
-        }
+    mounted () {
+        
     }
+
 }
+
 </script>
 
-<style>
-.buttonDiscardSave{
+<style lang="scss">
+.buttonDiscardSave {
     margin-left: 20px;
     margin-right: 20px;
     width: 35%;
 }
+
 .col-accept-edit-delete {
     margin-top: 25px;
     display: flex;
@@ -156,14 +333,15 @@ export default {
 .divAutocomplete {
     display: flex;
     flex-direction: row;
+    width: 100%;
+}
+.inputAutocomplete
+{
+    width: 100%;
 }
 
 .buttonSumMinus {
     height: 34px;
-}
-
-.divClass {
-    margin-bottom: 10px;
 }
 
 .divDateProgress {
@@ -180,7 +358,7 @@ export default {
     text-align: center;
 }
 
-.autocomplate {
+.autocomplete {
     border-radius: 6px;
     font-weight: 600;
     font-size: 12px;
@@ -192,10 +370,12 @@ export default {
     height: auto;
     padding-bottom: 10px;
     color: #141414;
+
 }
 
-.div-autocomplate {
-    margin-top: 10px;
+.div-autocomplete {
+    margin-top: 20px;
+    margin-bottom:10px;
     clear: both;
     left: 50%;
     display: flex;
@@ -263,4 +443,38 @@ a-button :hover {
     font-size: medium;
     font-weight: 600;
 }
+
+/* GOOGLE MAPS API ELEMENTS */
+.pac-target-input {
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    height: 40px;
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
+    margin-bottom: 10px;
+    float: right;
+    height: auto;
+    padding-bottom: 10px;
+    color: #141414;
+    width:80%;
+
+    @media screen and (max-width:991px) {
+        width:90%;
+    }
+}
+
+.ant-picker, .ant-select-selector, .ant-select {
+    @media screen and (max-width:991px) {
+        width:80%;
+    } 
+}
+.selectInput {
+    // @media screen and (max-width:991px) {
+        width:100%;        
+    // }
+}
+
+
+
 </style>

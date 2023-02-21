@@ -68,8 +68,8 @@ const routes = [
 	}
 	,
 	{
-		path: '/my-routes-manager',
-		name: 'My Routes',
+		path: '/routes-management',
+		name: 'Routes management',
 		layout: "dashboard",
 		component: () => import('../views/MyRoutesManagment.vue'),
 	}

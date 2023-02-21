@@ -3,11 +3,11 @@
     <!-- Your Transactions Card -->
     <a-card :bordered="false" class="header-solid h-full" :bodyStyle="{ paddingTop: 0, paddingBottom: '16px' }">
         <template #title>
-            <h6 class="font-semibold m-0">Route map</h6>
+            <h5>Map route</h5>
         </template>
         <GoogleMap api-key="AIzaSyD8SCbN9ajO1phNjE3rAMkwcY-psqVEVIM" style="width: 100%; height: 500px" :center="center"
             :zoom="8" class="mapCenter">
-            <Marker :options="{ position: center }" />
+            <Marker :options="{ position: center }"/>
         </GoogleMap>
     </a-card>
     <!-- / Your Transactions Card -->
