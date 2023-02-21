@@ -5,8 +5,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const routes = [
 	{
 	  path: '/',
-	  name: 'DASHBOARD',
-	//  component: () => import("../layouts/Dashboard.vue")
+	  name: 'Home',
+	  component: () => import("../views/Home.vue")
 	},
 	// {
 	//   path: '/dashboardRTL',
@@ -72,6 +72,12 @@ const routes = [
 		name: 'Routes management',
 		layout: "dashboard",
 		component: () => import('../views/MyRoutesManagment.vue'),
+	},
+	{
+		path: '/copyright',
+		name: 'Copyright',
+		layout: "dashboard",
+		component: () => import('../views/Copyright.vue'),
 	}
 	
 ]

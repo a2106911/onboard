@@ -14,6 +14,7 @@
 		</a-button>
 		<OneRoute
 			:route="selectedRoute"
+			@updateValues="processUpdateValues"
 		></OneRoute>
 	</span>
 	
@@ -85,10 +86,13 @@
 				description:
 				"You don't have any routes.",
 			});
-		}
-		},
-		created () {
-			axios({
+			},
+			processUpdateValues(){
+				this.getRoutes();
+				console.log(this.myRoutes)
+			},
+			getRoutes() {
+				axios({
 				method:"PUT",
 				// url:"http://onboard.daw.institutmontilivi.cat/api/get-routes",
 				url:"http://localhost/api/get-routes",
@@ -107,6 +111,10 @@
 					}
 				}
 			})
+			}
+		},
+		created () {
+			this.getRoutes();
 		}
 	})
 
