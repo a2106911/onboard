@@ -1,4 +1,5 @@
-<template><!-- Settings Drawer -->
+<template>
+<!-- Settings Drawer -->
 	<a-drawer class="settings-drawer" :class="[rtl ? 'settings-drawer-rtl' : '']" :placement="rtl ? 'left' : 'right'"
 		:closable="false" :visible="showSettingsDrawer" width="360" :getContainer="() => wrapper"
 		@close="$emit('toggleSettingsDrawer', false)">
@@ -49,7 +50,9 @@
 			<div class="download">
 				<!-- <a-button type="dark" href="https://www.creative-tim.com/product/muse-vue-ant-design-dashboard" block target="_blank">FREE DOWNLOAD</a-button>
 					<a-button type="primary" href="https://www.creative-tim.com/product/muse-vue-ant-design-dashboard-pro" block target="_blank">UPGRADE TO PRO</a-button> -->
-				<a-button type="secondary" href="https://demos.creative-tim.com/muse-vue-ant-design-dashboard/documentation"
+				<!-- <a-button type="secondary" href="https://demos.creative-tim.com/muse-vue-ant-design-dashboard/documentation"
+					block target="_blank">VIEW DOCUMENTATION</a-button> -->
+				<a-button type="secondary" href="http://172.17.100.111/documentacio/"
 					block target="_blank">VIEW DOCUMENTATION</a-button>
 			</div>
 			<div class="github-stars">
@@ -79,6 +82,18 @@
 
 		</div>
 		<!-- / Settings Drawer Content -->
+
+		<a-card class="adsContainer" @click="linkToAd()">
+			<span class="adInfo">Advertisement</span>
+			<div class="oneAdContainer">
+				<span class="adTitle">BeeHive</span>
+				<div class="adImg">
+					<img src="@/img/BeeHiveLogo.svg" alt="">
+				</div>
+				<br>
+				<span class="adDescription">Check it out if you want to experience a refreshing task manager for personal use.</span>
+			</div>
+		</a-card>
 
 	</a-drawer>
 <!-- / Settings Drawer --></template>
@@ -136,6 +151,11 @@ export default ({
 			navbarFixedModel: this.navbarFixed,
 		}
 	},
+	methods: {
+		linkToAd() {
+			location.href = "http://beehive.daw.institutmontilivi.cat/";
+		}
+	},
 	mounted: function () {
 		// Set the wrapper to the proper element, layout wrapper.
 		this.wrapper = document.getElementById('layout-dashboard');
@@ -143,3 +163,42 @@ export default ({
 })
 
 </script>
+
+
+<style lang="scss">
+	.ant-drawer-body {
+		display:flex;
+		flex-direction:column;
+		gap:150px;
+		font-family:"Itim";
+	}
+	.adsContainer {
+		margin-top:50px;
+		background-color: grey;
+		padding:10px;
+		overflow:auto;
+
+		.oneAdContainer {
+			width:100%;
+			display:flex;
+			flex-direction: column;
+    		align-items: center;
+			
+			.adImg {
+				width:50%;
+			}
+			.adTitle {
+				font-size:50px;
+			}
+			.adDescription {
+				font-size:1em;
+			}
+		}
+	}
+	.adInfo {
+		position:absolute;
+		top:1px;
+		left:1px;
+		font-size:smaller;
+	}
+</style>
