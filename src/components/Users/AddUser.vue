@@ -161,13 +161,7 @@ export default ({
         },
         handleAddUser(e) {
             e.preventDefault();
-            //first, we need to check if the password has been  changed:
-            // console.log("password encryptation process.")
-                // console.log("1", this.password)
-                // this.password = CryptoJS.AES.encrypt(this.password, "2").toString();
-                // console.log("2", this.password)
-                // console.log(this.md5Hash)
-            
+                        
             // Here will encrypt the password 
             this.user.password = MD5(this.user.password).toString();
             this.addUser();
@@ -207,7 +201,6 @@ export default ({
             }).then((response)=> {
                 if (response.data !== null) {
                     if (response.data != "0" && response.data != false) {
-                        // console.log("get-available-drivers response",response);
                         this.availableDrivers = response.data;
                     }
                     else if (response.data == "0") {

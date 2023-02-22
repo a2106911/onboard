@@ -70,20 +70,13 @@ export default {
       // Binded model property for "Sign In Form" switch button for "Remember Me" .
       rememberMe: true,
       emailInput:null,
-      passwordInput:null,
-      // form: this.$form.createForm(this, { name: 'horizontal_login' }),
+      passwordInput:null
     };
-  },
-  beforeCreate() {
-    // Creates the form and adds to it component's "form" property.
-    // this.form = this.$form.createForm(this, { name: "normal_login" });
   },
   methods: {
     // Handles input validation after submission.
     handleSubmit(e) {
       e.preventDefault();
-      // console.log(this.passwordInput)
-      // console.log(MD5(this.passwordInput).toString())
       axios({
         method:"PUT",
         url:"http://onboard.daw.institutmontilivi.cat/api/login",
@@ -99,37 +92,19 @@ export default {
           this.$emit("loginRequest", response.data);
         }
       })
-
-    }
-    ,
-    log() {
-      // console.log(this.emailInput);
-    },
-    change() {
-
     }
   },
   watch: {
-    emailInput() {
-      // console.log(this.emailInput);
-      
-    }
   }
 };
 </script>
 
 <style lang="scss">
-// body, html {
-//   position:relative;
-//   height:100%;
-//   width:100%;
-// }
 .signInBackground {
   background: url('../img/truck_login.jpg') no-repeat;
   background-size: cover;
   overflow: hidden;
   background-position: center;
-  // position:relative; 
   width:100%;
   height:100%;
 }

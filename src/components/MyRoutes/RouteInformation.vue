@@ -82,12 +82,9 @@ export default ({
                 }
 
             }).then((response) => {
-                console.log(this.routeInfo.routeId);
                 if (response.data !== null) {
                     if (response.data != "0" && response.data != false) {
-                        // console.log("get-routes response",response);
                         this.routePoints = response.data;
-                        console.log(response.data);
                     }
                     else if (response.data == "0") {
                         this.noRoutesWarning();

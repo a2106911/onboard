@@ -124,7 +124,6 @@ export default {
             this.routePoints[i].address = e.formatted_address;
             this.routePoints[i].coordinates = e.location;
             this.routePoints[i].sortingPosition = i;
-            // console.log(e.geometry.location)
         },
         removeRoutePoint() {
             this.routePoints.pop();
@@ -167,7 +166,6 @@ export default {
             }).then((response) => {
                 if (response.data !== null) {
                     if (response.data != "0" && response.data != false) {
-                        console.log("get-linked-drivers response", response);
                         //Here we'll add any drivers that may already be linked to this manager to the select form data fields.
                         //This way we'll be able to see what drivers are already linked to the user from the form.
                         for (let i in response.data) {
@@ -178,7 +176,6 @@ export default {
                         this.notification("warning", "Warning", "The driver specific information hasn't been found.");
                     }
                 }
-                console.log("this.linkedDrivers",this.linkedDrivers)
             })
         },
         getCurrentUser() {
@@ -214,10 +211,8 @@ export default {
                     "routeId":this.route.routeId
                 }
             }).then((response) => {
-                // console.log("get routes",response)
                 if (response.data !== null && response.data != "0" && response.data != false) {
                     this.routePoints = response.data;
-                    // console.log("route points after insert", this.routePoints)
                 }
                 else if (response.data == "0") {
                     this.notification("warning", "No route points", "No route points have been found for this route. The entry may be corrupted. If the problem persists, get in touch with your administrator.");
@@ -229,7 +224,6 @@ export default {
             })
         },
         updateRoute() {
-            console.log("before update", this.routePoints);
             axios({
                 method:"PUT",
                 url:"http://onboard.daw.institutmontilivi.cat/api/modify-route",
@@ -251,7 +245,6 @@ export default {
                 }
             }).then((response)=> {
                 if (response.data !== null) {
-                    // console.log(response.data)
                     if (response.data == true) {
                         this.notification("success", "Success!", `The route has been updated successfully.`);
                         this.handleDiscardChanges();
@@ -276,10 +269,8 @@ export default {
                 }
             }).then((response)=> {
                 if (response.data !== null) {
-                    // console.log(response)
                     if (response.data == true) {
                         this.notification("success", "Success!", `The route has been removed successfully.`);
-                        // this.$emit("discardChanges");
                         this.handleDiscardChanges();
                     }
                     else {
@@ -291,39 +282,24 @@ export default {
             })
         },
         handleSaveChanges() {
-            // e.preventDefault();
             //Last route point. Optional
-            // console.log(this.routePoints.slice(-1)[0].address)
-            // console.log("rp",this.routePoints)
             if (this.routePoints.slice(-1)[0] !== undefined) {
-                console.log(2)
                 this.finalDestination = this.routePoints.slice(-1)[0].address;
             }
             else this.finalDestination = "";
 
             //First route point. Obligatory
             if (this.routePoints[0] === undefined) { //if there aren't any routePoints defined, we won't allow the route to be created.
-            console.log(3)
                 this.notification("error", "Missing parameters", "You must have at least one address point.");
             }
-            else {  
-                console.log(4) 
+            else {
                 //Rest of the obligatory parameters.
                 if (this.replicaOfRoute.date == null || this.replicaOfRoute.driverId == null || this.replicaOfRoute.origin == null || this.finalDestination == null) {
-                    console.log(5)
-                    console.log(this.replicaOfRoute.date)
-                    console.log(this.replicaOfRoute.driverId)
-                    console.log(this.replicaOfRoute.origin)
-                    console.log(this.finalDestination)
-                    console.log(55)
                     this.notification("error", "Missing parameters", "1");
                 }
                 else {
-                    console.log(6)
                     //If the vehicle plate isn't set, we'll set it to an empty string.
                     if (this.selectedDriver.defaultVehiclePlate == null) this.selectedDriver.defaultVehiclePlate = "";
-
-                    console.log(7)
                     this.updateRoute();
                 }
             }
@@ -333,7 +309,6 @@ export default {
         this.getCurrentUser();
         this.getManagerInfo();
         this.getRoutePoints();
-        console.log("edit one route", this.route)
         const loader = new Loader({
             apiKey: 'AIzaSyD8SCbN9ajO1phNjE3rAMkwcY-psqVEVIM',
             version: 'weekly',

@@ -134,7 +134,6 @@ export default {
           "accessToken":localStorage.getItem("accessToken"),
         }
       }).then((response)=> {
-        // console.log(this.response)
         this.displayName = response.data.name + " " + response.data.surnames;
       })
     }

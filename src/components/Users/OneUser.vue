@@ -201,14 +201,12 @@ export default ({
             }).then((response)=> {
                 if (response.data !== null) {
                     if (response.data != "0" && response.data != false) {
-                        // console.log("get-available-managers response",response);
                         this.availableManagers = response.data;
                     }
                     else if (response.data == "0") {
                         this.notification("warning", "No routes found", "You don't have any routes.");
                     }
                 }
-                // console.log("available managers",this.availableManagers)
             })
         },
         getDriverInfo() {
@@ -224,7 +222,6 @@ export default ({
             }).then((response)=> {
                 if (response.data !== null) {
                     if (response.data != "0" && response.data != false) {
-                        console.log("get-driver response",response);
                         //In order to prevent js crashes, we need to make sure no entries in the response have null as a value.
                         if (response.data.defaultVehiclePlate === null) response.data.defaultVehiclePlate = "";
                         if (response.data.managerId === null) response.data.managerId = "";
@@ -232,14 +229,12 @@ export default ({
                         if (response.data.managerSurnames === null) response.data.managerSurnames = "";
                         this.driverInfo = response.data;
 
-                        console.log(this.linkedManagerInput);
                         this.linkedManagerInput = response.data.managerId;
                     }
                     else if (response.data == "0") {
                         this.notification("warning", "Warning", "The driver specific information hasn't been found.");
                     }
                 }
-                // console.log("this.driverInfo",this.driverInfo)
             })
         },
         getManagerInfo() {
@@ -255,7 +250,6 @@ export default ({
             }).then((response)=> {
                 if (response.data !== null) {
                     if (response.data != "0" && response.data != false) {
-                        // console.log("get-linked-drivers response",response);
                         //Here we'll add any drivers that may already be linked to this manager to the select form data fields.
                         //This way we'll be able to see what drivers are already linked to the user from the form.
                         for(let i in response.data) {
@@ -267,7 +261,6 @@ export default ({
                         this.notification("warning", "Warning", "The driver specific information hasn't been found.");
                     }
                 }
-                // console.log("this.driverInfo",this.driverInfo)
             })
         },
         getAvailableDrivers() {
@@ -282,7 +275,6 @@ export default ({
             }).then((response)=> {
                 if (response.data !== null) {
                     if (response.data != "0" && response.data != false) {
-                        // console.log("get-available-drivers response",response);
                         this.availableDrivers = response.data;
                     }
                     else if (response.data == "0") {
@@ -314,11 +306,7 @@ export default ({
                     "linkedDrivers":this.linkedDriversInput
                 }
             }).then((response)=> {
-                console.log("update",response.data)
                 if (response.data !== null) {
-                    console.log("check driverModificationStatus", response.data.driverModificationStatus == false)
-                    console.log("check managerModificationStatus", response.data.managerModificationStatus == false)
-                    console.log("check userModificationStatus", response.data.userModificationStatus == false)
 
                     if (response.data.driverModificationStatus && response.data.managerModificationStatus && response.data.userModificationStatus) {
                         this.notification("success", "Changes applied successfully")

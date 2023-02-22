@@ -199,7 +199,6 @@
 				else { //desktop view: (no columns hidden)
 					this.originalColumns.filter(column => {column.hidden = false});
 				}
-				// console.log("columns", this.columns);
 				this.columns = this.originalColumns.filter(column => !column.hidden);
 			},
 			getAllUsers() {
@@ -212,10 +211,8 @@
 						"accessToken":localStorage.getItem("accessToken")
 					}
 				}).then((response)=> {
-					// console.log("response.data", response.data);
 					if (response.data !== null) {
 						if (response.data != "0" && response.data != false) {
-							// console.log("users response",response);
 							this.users = response.data;
 						}
 						else if (response.data == "0") {

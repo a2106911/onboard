@@ -13,11 +13,7 @@
 		@loginRequest="processLoginRequest"
 		>
 	</signIn>
-	<!-- <div id="app"> -->
-	<!-- <router-view /> -->
-	<!-- <component :is="layout">
-		</component> -->
-	<!-- </div> -->
+	
 </template>
 
 <script>
@@ -39,7 +35,6 @@ export default ({
 	},
 	methods: {
 		processLoginRequest(result) {
-			// console.log("app", result)
 			if(result == "false") {
 				//In case the login failed, we'll show the user a notification:
 				this.loginFailedWarning();
@@ -61,13 +56,6 @@ export default ({
 					this.$router.push("/administration");
 				}
 			}
-
-			// if (result) {
-			// 	this.signed = true;
-			// }
-			// else {
-			// 	this.signed = false;
-			// }
 		},
 		loginFailedWarning() {
 			this.$notification["warning"]({
@@ -81,8 +69,7 @@ export default ({
 		// Sets components name based on current route's specified layout, defaults to
 		// <layout-default></layout-default> component.
 		layout() {
-			return DashboardVue
-			//return "layout-" + ( this.$route.meta.layout || "default" ).toLowerCase() ;
+			return DashboardVue;
 		}
 	},
 	created() {
@@ -94,15 +81,11 @@ export default ({
 				"password-get-token":"a827167be35df9c9dd25ab637741e769"
 			}
 		}).then((response)=> {
-			// console.log(response);
 			localStorage.setItem("temporaryToken", response.data);
 		})
 
 		if (sessionStorage.getItem("logged") !== null) {
-			// console.log(2);
-			// console.log(sessionStorage.getItem("logged"))
 			if (sessionStorage.getItem("logged") == "true") {
-				// console.log("in")
 				this.signed = true;
 				sessionStorage.setItem("logged", "true");
 			}
@@ -115,10 +98,7 @@ export default ({
 	},
 	watch: {
 		// eslint-disable-next-line no-unused-vars
-		$route(from,to) {
-			// console.log("from", from);
-			// console.log("to", to);
-
+		$route(from) {
 			if(from.fullPath == "/logout") {
 				this.signed = false;
 				this.$router.push("/sign-in");

@@ -106,9 +106,6 @@ export default {
     },
     methods: {
         moment,
-        setPlace(e) {
-            console.log(e)
-        },
         handleDiscardChanges() {
             this.$emit("discardChanges");
         },
@@ -126,7 +123,6 @@ export default {
 			if (response.data !== null) {
 				if (response.data != "0" && response.data != false) {
 					this.userData = response.data;
-                    console.log(this.userData);
 				}
 			}
 		})

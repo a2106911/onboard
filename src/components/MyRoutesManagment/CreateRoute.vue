@@ -115,7 +115,6 @@ export default {
             this.routePoints[i].address = e.formatted_address;
             this.routePoints[i].coordinates = e.location;
             this.routePoints[i].sortingPosition = i;
-            // console.log(e.geometry.location)
         },
         removeRoutePoint() {
             this.routePoints.pop();
@@ -153,7 +152,6 @@ export default {
             }).then((response) => {
                 if (response.data !== null) {
                     if (response.data != "0" && response.data != false) {
-                        console.log("get-linked-drivers response", response);
                         //Here we'll add any drivers that may already be linked to this manager to the select form data fields.
                         //This way we'll be able to see what drivers are already linked to the user from the form.
                         for (let i in response.data) {
@@ -164,7 +162,6 @@ export default {
                         this.notification("warning", "Warning", "The driver specific information hasn't been found.");
                     }
                 }
-                console.log("this.linkedDrivers",this.linkedDrivers)
             })
         },
         getCurrentUser() {
@@ -209,7 +206,6 @@ export default {
                 }
             }).then((response)=> {
                 if (response.data !== null) {
-                    console.log(response)
                     if (response.data == true) {
                         this.notification("success", "Success!", `The route has been created successfully.`);
                         this.discardChanges();

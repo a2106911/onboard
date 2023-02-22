@@ -127,14 +127,9 @@
 				// Reason for the negative value is that it doesn't activate the affix unless
 				// scroller is anywhere but the top of the page.
 			},
-			// onSearch(value){
-			// 	console.log(value);
-			// },
 			logout() {
 				window.localStorage.removeItem("accessToken");
 				window.sessionStorage.removeItem("logged");
-
-				// this.$router.push("/sign-in");
 			}
 		},
 		mounted: function(){
@@ -146,10 +141,6 @@
 			// error while resizing.
 			window.addEventListener("resize", this.resizeEventHandler);
 		},
-		// destroyed() { DEPRACTATED!
-		// 	// Removing window resize event listener.
-		// 	window.removeEventListener("resize", this.resizeEventHandler);
-		// },
 		unmounted() {
 			// Removing window resize event listener.
 			window.removeEventListener("resize", this.resizeEventHandler);

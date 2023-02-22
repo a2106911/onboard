@@ -134,11 +134,8 @@ export default ({
 		//this method is used to receive the selected route data via emit from the ListRoutes component.
 		getSelectedRoute(route) {
 			this.selectedRoute = route;
-			// console.log(this.selectedRoute);
 		},
 		handleDiscardChanges() {
-			// console.log("pulame")
-			console.log(1);
 			this.selectedRoute = null;
 			this.myRoutes = [];
 			this.getAllRoutes();
@@ -174,7 +171,6 @@ export default ({
 			else { //desktop view: (no columns hidden)
 				this.originalColumns.filter(column => { column.hidden = false });
 			}
-			// console.log("columns", this.columns);
 			this.columns = this.originalColumns.filter(column => !column.hidden);
 		},
 		getAllRoutes() {
@@ -188,7 +184,6 @@ export default ({
 			}).then((response) => {
 				if (response.data !== null) {
 					if (response.data != "0" && response.data != false) {
-						// console.log("get-routes response", response);
 						this.myRoutes = response.data;
 					}
 					else if (response.data == "0") {
@@ -209,7 +204,6 @@ export default ({
 		}).then((response) => {
 			if (response.data !== null) {
 				if (response.data != "0" && response.data != false) {
-					// console.log("get-routes response", response);
 					this.myRoutes = response.data;
 				}
 				else if (response.data == "0") {
