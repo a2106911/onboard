@@ -174,7 +174,6 @@ export default ({
 	}
 	.adsContainer {
 		margin-top:50px;
-		background-color: grey;
 		padding:10px;
 		overflow:auto;
 
